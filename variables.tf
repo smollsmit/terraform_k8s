@@ -3,6 +3,10 @@ variable "project" {
     default = "opportunity-quohai"
 }
 
+variable "env" {
+    default = "dev"
+}
+
 variable "region" {
     default = "europe-west3"  
 }
