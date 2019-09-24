@@ -1,3 +1,13 @@
+resource "google_project_service" "kubernetes-engine-api" {
+  project = var.project
+  service = "container.googleapis.com"
+}
+
+resource "google_project_service" "compute-engine-api" {
+  project = var.project
+  service = "compute.googleapis.com"
+}
+
 module "k8s-cluster" {
   source      = "../modules/k8s-cluster"
   project     = var.project
@@ -11,3 +21,4 @@ module "k8s-cluster" {
   # To make testing easier, we keep the public endpoint available. In production, we highly recommend restricting access to only within the network boundary, requiring your users to use a bastion host or VPN.
   #disable_public_endpoint = "false"
 }
+
