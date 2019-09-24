@@ -1,11 +1,6 @@
-resource "google_project_service" "kubernetes-engine-api" {
+resource "google_project_service" "google-engine-api" {
   project = var.project
-  service = "container.googleapis.com"
-}
-
-resource "google_project_service" "compute-engine-api" {
-  project = var.project
-  service = "compute.googleapis.com"
+  service = ["container.googleapis.com", "compute.googleapis.com"]
 }
 
 module "k8s-cluster" {
