@@ -16,12 +16,17 @@ variable "zone" {
 }
 
 # ---------- Network
+
+variable "k8s-master-subnet" {
+    default = "10.1.0.0/28"
+}
+
 variable "k8s-cluster-subnet" {
     default = "10.1.1.0/24"
 }
 
 variable "db-subnet" {
-    default = "10.1.2.0/24"
+    default = "10.1.11.0/24"
 }
 
 # ---------- Users

@@ -13,6 +13,12 @@ variable "env" {
   default = "undefined"
 }
 
+# ---------- Networking
+variable "network" {
+  type = string
+  default = ""
+}
+
 # ---------- Addons
 variable "dashboard" {
   type        = bool
@@ -24,29 +30,6 @@ variable "http-load-balancing" {
   type        = bool
   description = "Enable httpload balancer addon"
   default     = true
-}
-
-variable "network-policy" {
-  type        = bool
-  description = "Enable network policy addon"
-  default     = false
-}
-
-variable "network-policy-provider" {
-  type        = string
-  description = "The network policy provider."
-  default     = "CALICO"
-}
-
-# ---------- Networking
-variable "network" {
-  type = string
-  default = ""
-}
-
-variable "subnetwork" {
-  type = string
-  default = ""
 }
 
 # ---------- Cluster configurations
@@ -66,4 +49,17 @@ variable "monitoring-service" {
   type        = string
   description = "The monitoring service that the cluster should write metrics to. Automatically send metrics from pods in the cluster to the Google Cloud Monitoring API. VM metrics will be collected by Google Compute Engine regardless of this setting Available options include monitoring.googleapis.com, monitoring.googleapis.com/kubernetes (beta) and none"
   default     = "monitoring.googleapis.com"
+}
+
+variable "node_pools" {
+  type        = list(map(string))
+  description = "List of maps containing node pools"
+
+  default = [
+    {
+      name          = "default-node-pool"
+      node_count    = "1"
+      machine_type  = "n1-standard-1"
+    },
+  ]
 }
