@@ -16,7 +16,12 @@ variable "env" {
 # ---------- Networking
 variable "network" {
   type = string
-  default = ""
+  default = "default"
+}
+
+variable "subnetwork" {
+  type = string
+  default = "default"
 }
 
 # ---------- Addons

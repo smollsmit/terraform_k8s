@@ -16,6 +16,11 @@ resource "google_container_cluster" "k8s-cluster" {
       disabled = ! var.http-load-balancing
     }
   }
+  
+  #labels = {
+  #    env = var.env
+  #}
+
 }
 
 resource "google_container_node_pool" "pools" {
@@ -24,6 +29,11 @@ resource "google_container_node_pool" "pools" {
   cluster     = google_container_cluster.k8s-cluster.name
   count       = length(var.node_pools)
   node_count  = var.node_pools[count.index]["node_count"]
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true
+  }
 
   node_config {
     preemptible  = true
