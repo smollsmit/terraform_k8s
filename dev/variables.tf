@@ -1,6 +1,10 @@
 # ---------- Projects params
-variable "project" {
+variable "project_id" {
     default = "opportunity-quohai"
+}
+
+variable "project" {
+    default = "opportunity"
 }
 
 variable "env" {
@@ -17,22 +21,22 @@ variable "zone" {
 
 # ---------- Network
 
-variable "k8s-master-subnet" {
+variable "master_subnet" {
     default = "10.1.0.0/28"
 }
 
-variable "k8s-cluster-subnet" {
+variable "node_subnet" {
     default = "10.1.1.0/24"
 }
 
-variable "db-subnet" {
+variable "db_subnet" {
     default = "10.1.11.0/24"
 }
 
 # ---------- Users
-variable "ssh-user" {
+variable "ssh_user" {
     default = "s.smetanin"
 }
-variable "ssh-pub-key-file" {
+variable "ssh_pub_key_file" {
     default = "/home/smith/.ssh/id_rsa.pub"
 }

@@ -1,10 +1,14 @@
-module "k8s-cluster" {
-  source      = "../modules/k8s-cluster"
+module "k8s_cluster" {
+  source      = "../modules/k8s_cluster"
   project     = var.project
   env         = var.env
   location    = var.zone
 
-  network     = google_compute_network.vpc.name
+  network       = google_compute_network.vpc.name
+  subnetwork    = google_compute_subnetwork.node_subnet.name
+  
+  master_subnet = var.master_subnet
+  node_subnet   = var.node_subnet
 
   node_pools = [
     {

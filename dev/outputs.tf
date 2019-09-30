@@ -1,11 +1,11 @@
 output "cluster-name" {
-  value = module.k8s-cluster.name
+  value = module.k8s_cluster.name
 }
 
-output "cluster-location" {
-  value = module.k8s-cluster.location
+output "cluster_location" {
+  value = module.k8s_cluster.location
 }
 
-output "cluster-endpoint" {
-  value = module.k8s-cluster.endpoint
+output "cluster_endpoint" {
+  value = module.k8s_cluster.endpoint
 }

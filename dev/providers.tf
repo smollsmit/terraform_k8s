@@ -1,13 +1,13 @@
 provider "google" {
   credentials = "${file("../credentials.json")}"
-  project     = var.project
+  project     = var.project_id
   region      = var.region
   zone        = var.zone
 }
 
 provider "google-beta" {
   credentials = "${file("../credentials.json")}"
-  project     = var.project
+  project     = var.project_id
   region      = var.region
   zone        = var.zone
 }
