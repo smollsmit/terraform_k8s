@@ -1,5 +1,5 @@
 # ---------- GKE cluster
-output "cluster-name" {
+output "cluster_name" {
   value = module.k8s_cluster.name
 }
 

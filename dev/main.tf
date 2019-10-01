@@ -17,6 +17,7 @@ module "k8s_cluster" {
       node_count        = 1 
       disk_size_gb      = 30
       disk_type         = "pd-standard"
+      preemptible       = true
     },
     {
       name              = "backend-pool"
@@ -24,6 +25,7 @@ module "k8s_cluster" {
       node_count        = 1
       disk_size_gb      = 30
       disk_type         = "pd-standard"
+      preemptible       = true
     },
   ]
 }

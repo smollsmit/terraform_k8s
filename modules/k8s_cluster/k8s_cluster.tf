@@ -43,7 +43,7 @@ resource "google_container_node_pool" "pools" {
   }
 
   node_config {
-    preemptible  = true
+    preemptible  = var.node_pools[count.index]["preemptible"] 
     machine_type = var.node_pools[count.index]["machine_type"]
     disk_size_gb = var.node_pools[count.index]["disk_size_gb"] 
     disk_type    = var.node_pools[count.index]["disk_type"]
@@ -54,7 +54,21 @@ resource "google_container_node_pool" "pools" {
     ]
 
     labels = {
-      env = var.env
+      env             = var.env
+      project         = var.project
+      node_pool_name  = var.node_pools[count.index]["name"]
     }
   }
+}
+
+resource "null_resource" "get-credentials" {
+
+  provisioner "local-exec" {
+    command = "gcloud container clusters get-credentials ${var.project}-${var.env} --zone ${var.location}"
+  }
+ 
+  depends_on = [
+    google_container_cluster.k8s_cluster,
+    google_container_node_pool.pools
+  ]
 }
