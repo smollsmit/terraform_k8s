@@ -1,5 +1,5 @@
 resource "google_container_cluster" "k8s_cluster" {
-  name      = "k8s-${var.project}-${var.env}"
+  name      = "${var.project}-${var.env}"
   location  = var.location
   
   network       = var.network

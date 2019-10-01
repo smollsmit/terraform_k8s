@@ -33,6 +33,10 @@ variable "db_subnet" {
     default = "10.1.11.0/24"
 }
 
+variable "bastion_ip_int" {
+    default = "10.1.1.254"
+}
+
 # ---------- Users
 variable "ssh_user" {
     default = "s.smetanin"
