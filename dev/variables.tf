@@ -34,7 +34,7 @@ variable "db_subnet" {
 }
 
 variable "bastion_ip_int" {
-    default = "10.1.1.254"
+    default = "10.1.1.250"
 }
 
 # ---------- Users

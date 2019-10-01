@@ -6,6 +6,10 @@
 *.tfstate.*
 *.swp
 
+# ---------- .tfplan files
+*.tfplan
+*.tfplan.*
+
 # ---------- Files
 crash.log
 credentials.json
