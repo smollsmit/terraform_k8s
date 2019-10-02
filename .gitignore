@@ -10,9 +10,8 @@
 *.tfplan
 *.tfplan.*
 
-# ---------- Files
-crash.log
-credentials.json
+# ---------- Log Files
+*.log
 
 # Ignore override files as they are usually used to override resources locally and so
 # are not checked in
@@ -20,3 +19,7 @@ override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
+
+# ---------- Ignore Credentials
+credentials/*
+!credentials/README.md

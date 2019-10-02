@@ -1,10 +1,10 @@
 # ---------- Projects params
 variable "project_id" {
-    default = "opportunity-quohai"
+    default = ""
 }
 
 variable "project" {
-    default = "opportunity"
+    default = "hubber"
 }
 
 variable "env" {
