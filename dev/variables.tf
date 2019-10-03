@@ -3,7 +3,7 @@ variable "project_id" {
     default = ""
 }
 
-variable "project" {
+variable "project_name" {
     default = "hubber"
 }
 
@@ -39,8 +39,12 @@ variable "bastion_ip_int" {
 
 # ---------- Users
 variable "ssh_user" {
-    default = "s.smetanin"
+    default = "smith"
 }
 variable "ssh_pub_key_file" {
     default = "/home/smith/.ssh/id_rsa.pub"
+}
+
+variable "billing_accaunt" {
+  default = "undefined"
 }

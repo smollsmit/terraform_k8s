@@ -10,6 +10,12 @@
 *.tfplan
 *.tfplan.*
 
+# ---------- .tfplan files
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+
 # ---------- Log Files
 *.log
 

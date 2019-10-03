@@ -1,6 +1,6 @@
 # ---------- VPC
 resource "google_compute_network" "vpc" {                                                                                                                                                                   
-  name                    =  "${format("%s","${var.project}-${var.env}-vpc")}"
+  name                    =  "${format("%s","${var.project_name}-${var.env}-vpc")}"
   auto_create_subnetworks = "false"
   routing_mode            = "REGIONAL"
 }
@@ -29,7 +29,7 @@ resource "google_compute_address" "bastion-ip-pub" {
 
 # ---------- Firewall's rule
 resource "google_compute_firewall" "allow-web-from-all-in" {
-    name    = "${var.project}-allow-web-from-all-in"
+    name    = "${var.project_name}-allow-web-from-all-in"
     network = google_compute_network.vpc.name
     allow {
         protocol = "tcp"
@@ -40,7 +40,7 @@ resource "google_compute_firewall" "allow-web-from-all-in" {
 }
 
 resource "google_compute_firewall" "allow-ssh-from-all-in" {
-    name    = "${var.project}-allow-ssh-from-all-in"
+    name    = "${var.project_name}-allow-ssh-from-all-in"
     network = google_compute_network.vpc.name
     allow {
         protocol = "tcp"
@@ -51,7 +51,7 @@ resource "google_compute_firewall" "allow-ssh-from-all-in" {
 }
 
 resource "google_compute_firewall" "allow-all-out" {
-    name    = "${var.project}-allow-all-out"
+    name    = "${var.project_name}-allow-all-out"
     network = google_compute_network.vpc.name
 
     allow {
@@ -62,7 +62,7 @@ resource "google_compute_firewall" "allow-all-out" {
     target_tags = ["allow-all-out"]
 }
 resource "google_compute_firewall" "allow-all-from-internal-in" {
-    name    = "${var.project}-allow-all-from-internal-in"
+    name    = "${var.project_name}-allow-all-from-internal-in"
     network = google_compute_network.vpc.name
     allow {
         protocol = "icmp"
