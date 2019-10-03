@@ -8,3 +8,16 @@ resource "google_project" "project" {
   billing_account     = "${var.billing_account}"
   auto_create_network = false
 }
+resource "google_project_services" "project_api" {
+  project             = "${google_project.project.project_id}"
+
+  services = [
+    "compute.googleapis.com",
+    "container.googleapis.com"
+  ]
+
+}
+resource "google_service_account" "terraform" {
+  account_id = "terraform"
+  display_name = "Account for automation aim"
+}
