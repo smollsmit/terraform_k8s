@@ -1,5 +1,20 @@
-# ---------- Modules
+# ---------- Get project_id
+data "external" "credentials" {
+  program = ["cat", "../credentials/${var.project_name}-${var.env}.json"]
+}
 
+# ---------- Enable API
+resource "google_project_services" "project_api" {
+  project   = data.external.credentials.result.project_id
+
+  services  = [
+    "compute.googleapis.com",
+    "container.googleapis.com",
+  ]
+
+}
+
+# ---------- Modules
 module "create_k8s_cluster" {
   source      = "../modules/create_k8s_cluster"
   project     = var.project_name

@@ -1,3 +1,8 @@
+# ---------- Project Variables
+output "project_id" {
+  value = data.external.credentials.result.project_id
+}
+
 # ---------- GKE cluster
 output "cluster_name" {
   value = module.create_k8s_cluster.name

@@ -1,21 +1,26 @@
 #!/bin/bash
 
-account_billing=$1
+# ---------- Variables
+id=$(openssl rand -hex 4)
+billing_account=$1
 project=$2
 env=$3
-project_id=${project}-${env}
-creds_path="../credentials/${project_id}.json"
+service_account_name="terraform"
+project_id=${project}-${env}-${id}
+creds_path="../credentials/${project}-${env}.json"
+role="owner"
 
-gcloud projects create ${project_id} --labels=project=${project} 
+
+gcloud projects create ${project_id} --name=${project}-${env} --labels=project=${project} 
 
 # Get billing account: gcloud beta billing accounts list
-gcloud beta billing projects link ${project_id} --billing-account ${account_billing}
+gcloud beta billing projects link ${project_id} --billing-account ${billing_account}
 
 # Create service account
-gcloud iam service-accounts create terraform --project ${project_id} --display-name "Terraform admin account"
+gcloud iam service-accounts create ${service_account_name} --project ${project_id} --display-name "Terraform account for automation aim"
 
 # Create JSON file with credentials
-gcloud iam service-accounts keys create ${creds_path} --iam-account terraform@${project_id}.iam.gserviceaccount.com
+gcloud iam service-accounts keys create ${creds_path} --iam-account ${service_account_name}@${project_id}.iam.gserviceaccount.com
 
 # Grant permissions
-gcloud projects add-iam-policy-binding ${project_id} --member serviceAccount:terraform@${project_id}.iam.gserviceaccount.com --role roles/viewer
+gcloud projects add-iam-policy-binding ${project_id} --member serviceAccount:${service_account_name}@${project_id}.iam.gserviceaccount.com --role roles/${role}
