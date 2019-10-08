@@ -44,4 +44,5 @@ module "create_k8s_cluster" {
 module "enable_api" {
   source = "../modules/enable_api"
   project_id  = local.project_id
+  api_services = var.api_services
 }

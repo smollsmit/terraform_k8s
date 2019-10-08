@@ -26,8 +26,19 @@ variable "tfplan" {
   default = "undefined"
 }
 
-# ---------- Network
+variable "api_services" {
+  type = list(string)
+  default = [
+    "cloudresourcemanager.googleapis.com",
+    "iam.googleapis.com",
+    "compute.googleapis.com",
+    "container.googleapis.com",
+    "oslogin.googleapis.com",
+    "serviceusage.googleapis.com"
+  ]
+}
 
+# ---------- Network
 variable "master_subnet" {
   default = "undefined"
 }
