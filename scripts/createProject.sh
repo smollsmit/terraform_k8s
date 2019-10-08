@@ -10,8 +10,7 @@ project_id=${project}-${env}-${id}
 creds_path="../credentials/${project}-${env}.json"
 role="owner"
 
-
-gcloud projects create ${project_id} --name=${project}-${env} --labels=project=${project} 
+#gcloud projects create ${project_id} --name=${project}-${env} --labels=project=${project} 
 
 # Get billing account: gcloud beta billing accounts list
 gcloud beta billing projects link ${project_id} --billing-account ${billing_account}
@@ -28,7 +27,7 @@ gcloud projects add-iam-policy-binding ${project_id} --member serviceAccount:${s
 # Enable API
 # gcloud services list --available --project ${project_id}
 # gcloud services list --enable --project ${project_id}
-gcloud services enable cloudresourcemanager.googleapis.com  --project ${project_id}
-gcloud services enable compute.googleapis.com               --project ${project_id}
-gcloud services enable serviceusage.googleapis.com          --project ${project_id}
-gcloud services enable container.googleapis.com             --project ${project_id}
+# gcloud services enable cloudresourcemanager.googleapis.com  --project ${project_id}
+# gcloud services enable compute.googleapis.com               --project ${project_id}
+# gcloud services enable serviceusage.googleapis.com          --project ${project_id}
+# gcloud services enable container.googleapis.com             --project ${project_id}
