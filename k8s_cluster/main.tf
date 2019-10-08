@@ -3,11 +3,18 @@ data "external" "credentials" {
   program = ["cat", "../credentials/${var.project_name}-${var.env}.json"]
 }
 
+locals {
+  project_id = data.external.credentials.result.project_id
+}
+
+
 # ---------- Enable API
 resource "google_project_services" "project_api" {
-  project   = data.external.credentials.result.project_id
+  project   = local.project_id
 
   services  = [
+    "cloudresourcemanager.googleapis.com",
+    "iam.googleapis.com",
     "compute.googleapis.com",
     "container.googleapis.com",
   ]

@@ -1,14 +1,14 @@
 # ---------- Projects params
 variable "project_id" {
-  default = ""
+  default = "undefined"
 }
 
 variable "project_name" {
-  default = "hubber"
+  default = "undefined"
 }
 
 variable "env" {
-  default = "dev"
+  default = "undefined"
 }
 
 variable "region" {
@@ -22,15 +22,15 @@ variable "zone" {
 # ---------- Network
 
 variable "master_subnet" {
-  default = "10.1.0.0/28"
+  default = "undefined"
 }
 
 variable "node_subnet" {
-  default = "10.1.1.0/24"
+  default = "undefined"
 }
 
 variable "db_subnet" {
-  default = "10.1.11.0/24"
+  default = "undefined"
 }
 
 variable "bastion_ip_int" {

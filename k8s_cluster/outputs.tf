@@ -1,6 +1,6 @@
 # ---------- Project Variables
 output "project_id" {
-  value = data.external.credentials.result.project_id
+  value = local.project_id
 }
 
 # ---------- GKE cluster

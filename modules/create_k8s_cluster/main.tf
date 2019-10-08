@@ -64,7 +64,7 @@ resource "google_container_node_pool" "pools" {
 resource "null_resource" "get-credentials" {
 
   provisioner "local-exec" {
-    command = "gcloud container clusters get-credentials ${var.project}-${var.env} --zone ${var.location}"
+    command = "gcloud container clusters get-credentials ${var.project}-${var.env} --project --zone ${var.location}"
   }
  
   depends_on = [
