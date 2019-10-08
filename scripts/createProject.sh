@@ -24,3 +24,11 @@ gcloud iam service-accounts keys create ${creds_path} --iam-account ${service_ac
 
 # Grant permissions
 gcloud projects add-iam-policy-binding ${project_id} --member serviceAccount:${service_account_name}@${project_id}.iam.gserviceaccount.com --role roles/${role}
+
+# Enable API
+# gcloud services list --available --project ${project_id}
+# gcloud services list --enable --project ${project_id}
+gcloud services enable cloudresourcemanager.googleapis.com  --project ${project_id}
+gcloud services enable compute.googleapis.com               --project ${project_id}
+gcloud services enable serviceusage.googleapis.com          --project ${project_id}
+gcloud services enable container.googleapis.com             --project ${project_id}

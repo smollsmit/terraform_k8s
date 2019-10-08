@@ -1,4 +1,7 @@
 # ---------- Projects params
+variable "organization" {
+  default = "undefined"
+}
 variable "project_id" {
   default = "undefined"
 }
@@ -17,6 +20,10 @@ variable "region" {
 
 variable "zone" {
   default = "europe-west3-a"
+}
+
+variable "tfplan" {
+  default = "undefined"
 }
 
 # ---------- Network

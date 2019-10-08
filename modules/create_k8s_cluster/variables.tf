@@ -8,6 +8,10 @@ variable "project" {
   default = "undefined"
 }
 
+variable "project_id" {
+  default = "undefined"
+}
+
 variable "env" {
   type = string
   default = "undefined"

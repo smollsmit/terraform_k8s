@@ -7,7 +7,6 @@ locals {
   project_id = data.external.credentials.result.project_id
 }
 
-
 # ---------- Enable API
 resource "google_project_services" "project_api" {
   project   = local.project_id
@@ -17,6 +16,8 @@ resource "google_project_services" "project_api" {
     "iam.googleapis.com",
     "compute.googleapis.com",
     "container.googleapis.com",
+    "oslogin.googleapis.com",
+    "serviceusage.googleapis.com",
   ]
 
 }
@@ -25,6 +26,7 @@ resource "google_project_services" "project_api" {
 module "create_k8s_cluster" {
   source      = "../modules/create_k8s_cluster"
   project     = var.project_name
+  project_id  = local.project_id
   env         = var.env
   location    = var.zone
 

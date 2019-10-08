@@ -1,3 +1,8 @@
+# ---------- IP Address
+resource "google_compute_address" "bastion-ip-pub" {
+  name = "bastion-ip-pub"
+}
+
 # ---------- VPC
 resource "google_compute_network" "vpc" {                                                                                                                                                                   
   name                    =  "${format("%s","${var.project_name}-${var.env}-vpc")}"
@@ -20,11 +25,6 @@ resource "google_compute_subnetwork" "db_subnet" {
   ip_cidr_range = var.db_subnet
   network       = google_compute_network.vpc.name
   region        = var.region
-}
-
-# ---------- IP Address
-resource "google_compute_address" "bastion-ip-pub" {
-  name = "bastion-ip-pub"
 }
 
 # ---------- Firewall's rule

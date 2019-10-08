@@ -2,14 +2,14 @@
 
 env=$1
 date=$(date '+%Y%m%d%H%M');
-logfile="tflogs/apply.log"
-planfile="tfplans/${date}.tfplan"
+logfile="./tflogs/apply.log"
+planfile="./tfplans/${date}.tfplan"
 varfile="./tfvars/${env}.tfvars"
 
 terraform validate 
-terraform plan -out=${planfile}
-#terraform apply ${planfile} -var-file ${varfile} -auto-approve
+terraform plan -var-file ${varfile} -var="tfplan=${date}" -out ${planfile}
+terraform apply ${planfile}
 
 if [ -f "${planfile}" ]; then
-    echo "Generate ${date}.tfplan" >> ${logfile}
+    echo "Tfplan was generated at ${date}" >> ${logfile}
 fi
