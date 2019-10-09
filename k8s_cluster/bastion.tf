@@ -14,11 +14,11 @@ resource "google_compute_instance" "bastion" {
   }
 
   network_interface {
-    subnetwork  = google_compute_subnetwork.node_subnet.name
-    network_ip  = var.bastion_ip_int
+    subnetwork  = "${google_compute_subnetwork.node_subnet.name}"
+    network_ip  = "${var.bastion_ip_int}"
 
     access_config {
-      nat_ip = google_compute_address.bastion-ip-pub.address
+      nat_ip = "${google_compute_address.bastion-ip-pub.address}"
     }
 
   }

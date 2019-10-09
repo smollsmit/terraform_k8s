@@ -8,7 +8,7 @@ resource "google_dns_managed_zone" "local_zone" {
 
   private_visibility_config {
     networks {
-      network_url = var.visibility_network
+      network_url = "${var.visibility_network}"
     }
   }
 

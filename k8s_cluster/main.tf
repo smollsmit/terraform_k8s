@@ -4,22 +4,22 @@ data "external" "credentials" {
 }
 
 locals {
-  project_id = data.external.credentials.result.project_id
+  project_id = "${data.external.credentials.result.project_id}"
 }
 
 # ---------- Modules
 module "k8s_cluster" {
-  source      = "../modules/k8s_cluster"
-  project     = var.project_name
-  project_id  = local.project_id
-  env         = var.env
-  location    = var.zone
+  source        = "../modules/k8s_cluster"
+  project       = "${var.project_name}"
+  project_id    = "${local.project_id}"
+  env           = "${var.env}"
+  location      = "${var.zone}"
 
-  network       = google_compute_network.vpc.name
-  subnetwork    = google_compute_subnetwork.node_subnet.name
+  network       = "${google_compute_network.vpc.name}"
+  subnetwork    = "${google_compute_subnetwork.node_subnet.name}"
   
-  master_subnet = var.master_subnet
-  node_subnet   = var.node_subnet
+  master_subnet = "${var.master_subnet}"
+  node_subnet   = "${var.node_subnet}"
 
   node_pools = [
     {
@@ -45,8 +45,8 @@ module "project_services" {
   source  = "terraform-google-modules/project-factory/google//modules/project_services"
   version = "3.3.0"
 
-  project_id    = local.project_id
-  activate_apis = var.api_services
+  project_id    = "${local.project_id}"
+  activate_apis = "${var.api_services}"
 
   disable_services_on_destroy = false
   disable_dependent_services  = false
@@ -54,8 +54,8 @@ module "project_services" {
 
 module "google_dns" {
   source              = "../modules/google_dns"
-  project_name        = var.project_name
-  env                 = var.env
+  project_name        = "${var.project_name}"
+  env                 = "${var.env}"
   dns_name            = "${var.env}.${var.project_name}.local" 
-  visibility_network  = google_compute_network.vpc.self_link
+  visibility_network  = "${google_compute_network.vpc.self_link}"
 }

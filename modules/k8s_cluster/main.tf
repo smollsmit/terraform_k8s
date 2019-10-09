@@ -1,9 +1,9 @@
 resource "google_container_cluster" "k8s_cluster" {
   name      = "${var.project}-${var.env}"
-  location  = var.location
+  location  = "${var.location}"
   
-  network       = var.network
-  subnetwork    = var.subnetwork
+  network       = "${var.network}"
+  subnetwork    = "${var.subnetwork}"
 
   initial_node_count        = 1
   remove_default_node_pool  = true
@@ -11,12 +11,13 @@ resource "google_container_cluster" "k8s_cluster" {
   addons_config {
 
     kubernetes_dashboard {
-      disabled = ! var.dashboard
+      disabled = false
     }
 
     http_load_balancing {
-      disabled = ! var.http_load_balancing
+      disabled = false
     }
+
   }
 
   ip_allocation_policy {
@@ -26,16 +27,16 @@ resource "google_container_cluster" "k8s_cluster" {
   private_cluster_config {
     enable_private_endpoint = false
     enable_private_nodes = true
-    master_ipv4_cidr_block = var.master_subnet
+    master_ipv4_cidr_block = "${var.master_subnet}"
   }
 }
 
 resource "google_container_node_pool" "pools" {
-  name        = var.node_pools[count.index]["name"]
-  location    = var.location
-  cluster     = google_container_cluster.k8s_cluster.name
-  count       = length(var.node_pools)
-  node_count  = var.node_pools[count.index]["node_count"]
+  name        ="${var.node_pools[count.index]["name"]}"
+  location    ="${var.location}"
+  cluster     ="${google_container_cluster.k8s_cluster.name}"
+  count       ="${length(var.node_pools)}"
+  node_count  ="${var.node_pools[count.index]["node_count"]}"
 
   management {
     auto_repair  = true
@@ -43,10 +44,10 @@ resource "google_container_node_pool" "pools" {
   }
 
   node_config {
-    preemptible  = var.node_pools[count.index]["preemptible"] 
-    machine_type = var.node_pools[count.index]["machine_type"]
-    disk_size_gb = var.node_pools[count.index]["disk_size_gb"] 
-    disk_type    = var.node_pools[count.index]["disk_type"]
+    preemptible  = "${var.node_pools[count.index]["preemptible"]}"
+    machine_type = "${var.node_pools[count.index]["machine_type"]}"
+    disk_size_gb = "${var.node_pools[count.index]["disk_size_gb"]}"
+    disk_type    = "${var.node_pools[count.index]["disk_type"]}"
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/logging.write",
@@ -54,9 +55,9 @@ resource "google_container_node_pool" "pools" {
     ]
 
     labels = {
-      env             = var.env
-      project         = var.project
-      node_pool_name  = var.node_pools[count.index]["name"]
+      env             = "${var.env}"
+      project         = "${var.project}"
+      node_pool_name  = "${var.node_pools[count.index]["name"]}"
     }
   }
 }
@@ -68,7 +69,7 @@ resource "null_resource" "get-credentials" {
   }
  
   depends_on = [
-    google_container_cluster.k8s_cluster,
-    google_container_node_pool.pools
+    "${google_container_cluster.k8s_cluster}",
+    "${google_container_node_pool.pools}"
   ]
 }
