@@ -69,7 +69,7 @@ resource "null_resource" "get-credentials" {
   }
  
   depends_on = [
-    "${google_container_cluster.k8s_cluster}",
-    "${google_container_node_pool.pools}"
+    "google_container_cluster.k8s_cluster",
+    "google_container_node_pool.pools"
   ]
 }
