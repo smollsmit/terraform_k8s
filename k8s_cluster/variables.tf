@@ -2,6 +2,7 @@
 variable "organization" {
   default = "undefined"
 }
+
 variable "project_id" {
   default = "undefined"
 }

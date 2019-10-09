@@ -8,8 +8,8 @@ locals {
 }
 
 # ---------- Modules
-module "create_k8s_cluster" {
-  source      = "../modules/create_k8s_cluster"
+module "k8s_cluster" {
+  source      = "../modules/k8s_cluster"
   project     = var.project_name
   project_id  = local.project_id
   env         = var.env
@@ -41,8 +41,19 @@ module "create_k8s_cluster" {
   ]
 }
 
-module "enable_api" {
-  source = "../modules/enable_api"
+module "google_api" {
+  source = "../modules/google_api"
   project_id  = local.project_id
   api_services = var.api_services
+}
+
+module "google_dns" {
+  source                  = "../modules/google_dns"
+  name                    = "TEST"
+  enable_dns_managed_zone = true
+  description             = "Local dns zone for ${var.env} environment"
+  dns_name                = "linux-notes.org."
+  enable_dns_record_set   = true
+  managed_zone            = "test-dns-mz-stage"
+  rrdatas                 = ["8.8.8.8"]
 }
