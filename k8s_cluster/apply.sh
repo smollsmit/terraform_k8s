@@ -7,7 +7,6 @@ planfile="./tfplans/${date}.tfplan"
 varfile="./tfvars/${env}.tfvars"
 
 terraform validate 
-#terraform plan -var-file ${varfile} -var="tfplan=${date}" -out ${planfile} -target module.enable_api
 terraform plan -var-file ${varfile} -var="tfplan=${date}" -out ${planfile}
 terraform apply ${planfile}
 

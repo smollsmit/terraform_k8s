@@ -10,7 +10,11 @@ project_id=${project}-${env}-${id}
 creds_path="../credentials/${project}-${env}.json"
 role="owner"
 
-#gcloud projects create ${project_id} --name=${project}-${env} --labels=project=${project} 
+# Get user's token for auth
+# gcloud auth application-default login
+
+# Create project
+gcloud projects create ${project_id} --name=${project}-${env} --labels=project=${project} 
 
 # Get billing account: gcloud beta billing accounts list
 gcloud beta billing projects link ${project_id} --billing-account ${billing_account}

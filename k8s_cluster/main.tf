@@ -41,19 +41,21 @@ module "k8s_cluster" {
   ]
 }
 
-module "google_api" {
-  source = "../modules/google_api"
-  project_id  = local.project_id
-  api_services = var.api_services
+module "project_services" {
+  source  = "terraform-google-modules/project-factory/google//modules/project_services"
+  version = "3.3.0"
+
+  project_id    = local.project_id
+  activate_apis = var.api_services
+
+  disable_services_on_destroy = false
+  disable_dependent_services  = false
 }
 
 module "google_dns" {
-  source                  = "../modules/google_dns"
-  name                    = "TEST"
-  enable_dns_managed_zone = true
-  description             = "Local dns zone for ${var.env} environment"
-  dns_name                = "linux-notes.org."
-  enable_dns_record_set   = true
-  managed_zone            = "test-dns-mz-stage"
-  rrdatas                 = ["8.8.8.8"]
+  source              = "../modules/google_dns"
+  project_name        = var.project_name
+  env                 = var.env
+  dns_name            = "${var.env}.${var.project_name}.local" 
+  visibility_network  = google_compute_network.vpc.self_link
 }
