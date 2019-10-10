@@ -54,23 +54,41 @@ variable "db_subnet" {
   default = "undefined"
 }
 
+variable "dmz_subnet" {
+  default = "undefined"
+}
+
 variable "bastion_ip_int" {
-  default = "10.1.1.250"
+  default = "undefined"
 }
 
 # ---------- Users
-variable "ssh_user" {
-  default = "smith"
-}
-variable "ssh_pub_key_file" {
-  default = "/home/smith/.ssh/id_rsa.pub"
-}
+#variable "root_ssh_user" {
+#  default = "undefined"
+#}
+#variable "root_ssh_pub_key_file" {
+#  default = "undefined"
+#}
 
 variable "billing_accaunt" {
   default = "undefined"
 }
 
+variable "users_devops" {
+  default = ""
+}
+
+# ---------- Cluster nodes 
+variable "frontend_node_count" {
+  default = "1"
+}
+variable "backend_node_count" {
+  default = "1"
+}
+
 # ---------- DNS
-variable "dns_name" {
-  default = "undefined" 
+variable "dns_a_records" {
+  default = {
+    "bastion" = "10.0.0.250"
+  }
 }

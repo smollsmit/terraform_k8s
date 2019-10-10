@@ -1,6 +1,6 @@
 # ---------- Get project_id
 data "external" "credentials" {
-  program = ["cat", "../credentials/${var.project_name}-${var.env}.json"]
+  program = ["cat", "../globals/credentials/${var.project_name}-${var.env}.json"]
 }
 
 locals {
@@ -25,7 +25,7 @@ module "k8s_cluster" {
     {
       name              = "frontend-pool"
       machine_type      = "f1-micro"
-      node_count        = 1 
+      node_count        = "${var.frontend_node_count}" 
       disk_size_gb      = 30
       disk_type         = "pd-standard"
       preemptible       = true
@@ -33,7 +33,7 @@ module "k8s_cluster" {
     {
       name              = "backend-pool"
       machine_type      = "g1-small"
-      node_count        = 1
+      node_count        = "${var.backend_node_count}"
       disk_size_gb      = 30
       disk_type         = "pd-standard"
       preemptible       = true

@@ -18,6 +18,13 @@ resource "google_compute_subnetwork" "node_subnet" {
   region        = "${var.region}"
 }
 
+resource "google_compute_subnetwork" "dmz_subnet" {
+  name          = "${format("%s","${google_compute_network.vpc.name}-dmz-subnet")}"
+  ip_cidr_range = "${var.dmz_subnet}"
+  network       = "${google_compute_network.vpc.name}"
+  region        = "${var.region}"
+}
+
 resource "google_compute_subnetwork" "db_subnet" {
   name          = "${format("%s","${google_compute_network.vpc.name}-db-subnet")}"
   ip_cidr_range = "${var.db_subnet}"

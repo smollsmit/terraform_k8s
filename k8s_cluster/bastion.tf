@@ -4,8 +4,11 @@ resource "google_compute_instance" "bastion" {
   tags         = ["allow-ssh-from-all-in","allow-all-from-internal-in"]
 
   metadata = {
-    sshKeys = "${var.ssh_user}:${file(var.ssh_pub_key_file)}"
+    sshKeys = "${join("\n", [for user in var.users_devops : "${user}:${file("../globals/pub_keys/${user}.pub")}"])}"
   }
+
+  metadata_startup_script = "sudo apt-get update && sudo apt-get install mc dnsutils"
+
 
   boot_disk {
     initialize_params {
@@ -14,7 +17,7 @@ resource "google_compute_instance" "bastion" {
   }
 
   network_interface {
-    subnetwork  = "${google_compute_subnetwork.node_subnet.name}"
+    subnetwork  = "${google_compute_subnetwork.dmz_subnet.name}"
     network_ip  = "${var.bastion_ip_int}"
 
     access_config {
