@@ -42,34 +42,14 @@ variable "api_services" {
 }
 
 # ---------- Network
-variable "master_subnet" {
+variable "public_trusted_hosts" {
   default = "undefined"
 }
-
-variable "node_subnet" {
-  default = "undefined"
-}
-
-variable "db_subnet" {
-  default = "undefined"
-}
-
-variable "dmz_subnet" {
-  default = "undefined"
-}
-
-variable "bastion_ip_int" {
+variable "vpc_subnet" {
   default = "undefined"
 }
 
 # ---------- Users
-#variable "root_ssh_user" {
-#  default = "undefined"
-#}
-#variable "root_ssh_pub_key_file" {
-#  default = "undefined"
-#}
-
 variable "billing_accaunt" {
   default = "undefined"
 }
@@ -89,6 +69,7 @@ variable "backend_node_count" {
 # ---------- DNS
 variable "dns_a_records" {
   default = {
-    "bastion" = "10.0.0.250"
+    "bastion" = "10.90.254.250",
+    "lb"      = "10.90.254.251"
   }
 }

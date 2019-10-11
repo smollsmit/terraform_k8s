@@ -4,7 +4,24 @@ data "external" "credentials" {
 }
 
 locals {
-  project_id = "${data.external.credentials.result.project_id}"
+  project_id    = "${data.external.credentials.result.project_id}"
+  master_subnet = "${cidrsubnet("${var.vpc_subnet}", 12, 0)}"
+  node_subnet   = "${cidrsubnet("${var.vpc_subnet}", 8, 2)}"
+  db_subnet     = "${cidrsubnet("${var.vpc_subnet}", 8, 4)}"
+  dmz_subnet    = "${cidrsubnet("${var.vpc_subnet}", 8, 254)}"
+  bastion_ip_int  = "${cidrhost("${cidrsubnet("${var.vpc_subnet}", 8, 254)}", 251)}"
+  lb_ip_int  = "${cidrhost("${cidrsubnet("${var.vpc_subnet}", 8, 254)}", 252)}"
+}
+# ---------- Enable Google API
+module "project_services" {
+  source  = "terraform-google-modules/project-factory/google//modules/project_services"
+  version = "3.3.0"
+
+  project_id    = "${local.project_id}"
+  activate_apis = "${var.api_services}"
+
+  disable_services_on_destroy = false
+  disable_dependent_services  = false
 }
 
 # ---------- Modules
@@ -16,10 +33,11 @@ module "k8s_cluster" {
   location      = "${var.zone}"
 
   network       = "${google_compute_network.vpc.name}"
-  subnetwork    = "${google_compute_subnetwork.node_subnet.name}"
+  subnetwork    = "${local.node_subnet}"
   
-  master_subnet = "${var.master_subnet}"
-  node_subnet   = "${var.node_subnet}"
+  master_subnet = "${local.master_subnet}"
+  node_subnet   = "${local.node_subnet}"
+  
 
   node_pools = [
     {
@@ -40,18 +58,6 @@ module "k8s_cluster" {
     },
   ]
 }
-
-module "project_services" {
-  source  = "terraform-google-modules/project-factory/google//modules/project_services"
-  version = "3.3.0"
-
-  project_id    = "${local.project_id}"
-  activate_apis = "${var.api_services}"
-
-  disable_services_on_destroy = false
-  disable_dependent_services  = false
-}
-
 module "google_dns" {
   source              = "../modules/google_dns"
   project_name        = "${var.project_name}"

@@ -1,7 +1,7 @@
 resource "google_compute_instance" "bastion" {                                                                                                                                                              
   name         = "bastion"
   machine_type = "f1-micro"
-  tags         = ["allow-ssh-from-all-in","allow-all-from-internal-in"]
+  tags         = ["allow-ssh-from-trust-in","allow-all-from-internal-in"]
 
   metadata = {
     sshKeys = "${join("\n", [for user in var.users_devops : "${user}:${file("../globals/pub_keys/${user}.pub")}"])}"
@@ -18,7 +18,7 @@ resource "google_compute_instance" "bastion" {
 
   network_interface {
     subnetwork  = "${google_compute_subnetwork.dmz_subnet.name}"
-    network_ip  = "${var.bastion_ip_int}"
+    network_ip  = "${local.bastion_ip_int}"
 
     access_config {
       nat_ip = "${google_compute_address.bastion-ip-pub.address}"
