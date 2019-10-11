@@ -61,7 +61,7 @@ resource "google_compute_firewall" "allow-ssh-from-trusted-in" {
         ports    = ["22"]
     }
     source_ranges = ["0.0.0.0/0"]
-    target_tags = ["allow-ssh-from-all-in"]
+    target_tags = ["allow-ssh-from-trusted-in"]
 }
 
 # ----- Rules for All
