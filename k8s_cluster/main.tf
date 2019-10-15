@@ -3,15 +3,6 @@ data "external" "credentials" {
   program = ["cat", "../globals/credentials/${var.project_name}-${var.env}.json"]
 }
 
-locals {
-  project_id    = "${data.external.credentials.result.project_id}"
-  master_subnet = "${cidrsubnet("${var.vpc_subnet}", 12, 0)}"
-  node_subnet   = "${cidrsubnet("${var.vpc_subnet}", 8, 2)}"
-  db_subnet     = "${cidrsubnet("${var.vpc_subnet}", 8, 4)}"
-  dmz_subnet    = "${cidrsubnet("${var.vpc_subnet}", 8, 254)}"
-  bastion_ip_int  = "${cidrhost("${cidrsubnet("${var.vpc_subnet}", 8, 254)}", 251)}"
-  lb_ip_int  = "${cidrhost("${cidrsubnet("${var.vpc_subnet}", 8, 254)}", 252)}"
-}
 # ---------- Enable Google API
 module "project_services" {
   source  = "terraform-google-modules/project-factory/google//modules/project_services"
@@ -33,7 +24,7 @@ module "k8s_cluster" {
   location      = "${var.zone}"
 
   network       = "${google_compute_network.vpc.name}"
-  subnetwork    = "${local.node_subnet}"
+  subnetwork    = "${google_compute_subnetwork.node_subnet.name}"
   
   master_subnet = "${local.master_subnet}"
   node_subnet   = "${local.node_subnet}"

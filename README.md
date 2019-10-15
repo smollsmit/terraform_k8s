@@ -5,6 +5,11 @@
 gcloud auth application-default login
 ```
 
+## Install kubectl
+```
+gcloud components install kubectl
+```
+
 ## Get credentials
 ```
 gcloud config set project <project_name>

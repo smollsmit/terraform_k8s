@@ -1,8 +1,4 @@
-# ---------- IP Address
-resource "google_compute_address" "bastion-ip-pub" {
-  name = "bastion-ip-pub"
-}
-
+# Contains of global network configurations
 # ---------- VPC
 resource "google_compute_network" "vpc" {                                                                                                                                                                   
   name                    =  "${format("%s","${var.project_name}-${var.env}-vpc")}"
@@ -11,6 +7,12 @@ resource "google_compute_network" "vpc" {
 }
 
 # ---------- Subnetwork
+resource "google_compute_subnetwork" "dmz_subnet" {
+  name          = "${format("%s","${google_compute_network.vpc.name}-dmz-subnet")}"
+  ip_cidr_range = "${local.dmz_subnet}"
+  network       = "${google_compute_network.vpc.name}"
+  region        = "${var.region}"
+}
 resource "google_compute_subnetwork" "node_subnet" {
   name          = "${format("%s","${google_compute_network.vpc.name}-node-subnet")}"
   ip_cidr_range = "${local.node_subnet}"
@@ -20,12 +22,6 @@ resource "google_compute_subnetwork" "node_subnet" {
 resource "google_compute_subnetwork" "db_subnet" {
   name          = "${format("%s","${google_compute_network.vpc.name}-db-subnet")}"
   ip_cidr_range = "${local.db_subnet}"
-  network       = "${google_compute_network.vpc.name}"
-  region        = "${var.region}"
-}
-resource "google_compute_subnetwork" "dmz_subnet" {
-  name          = "${format("%s","${google_compute_network.vpc.name}-dmz-subnet")}"
-  ip_cidr_range = "${local.dmz_subnet}"
   network       = "${google_compute_network.vpc.name}"
   region        = "${var.region}"
 }

@@ -7,7 +7,7 @@ project=$2
 env=$3
 service_account_name="terraform"
 project_id=${project}-${env}-${id}
-creds_path="../credentials/${project}-${env}.json"
+creds_path="../globals/credentials/${project}-${env}.json"
 role="owner"
 
 # Get user's token for auth

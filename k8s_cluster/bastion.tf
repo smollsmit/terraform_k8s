@@ -1,3 +1,9 @@
+# ---------- IP Address
+resource "google_compute_address" "bastion-ip-pub" {
+  name = "bastion-ip-pub"
+}
+
+# ---------- Instance
 resource "google_compute_instance" "bastion" {                                                                                                                                                              
   name         = "bastion"
   machine_type = "f1-micro"
