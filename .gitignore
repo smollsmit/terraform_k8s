@@ -27,5 +27,5 @@ override.tf.json
 *_override.tf.json
 
 # ---------- Ignore Credentials
-credentials/*
-!credentials/README.md
+globals/credentials/*
+!globals/credentials/README.md
