@@ -1,4 +1,7 @@
 # Contains of global network configurations
+resource "google_compute_global_address" "lb-ip-pub" {
+  name = "lb-ip-pub"
+}
 # ---------- VPC
 resource "google_compute_network" "vpc" {                                                                                                                                                                   
   name                    =  "${format("%s","${var.project_name}-${var.env}-vpc")}"
@@ -56,25 +59,31 @@ resource "google_compute_firewall" "allow-ssh-from-trusted-in" {
         protocol = "tcp"
         ports    = ["22"]
     }
-    source_ranges = ["0.0.0.0/0"]
-    target_tags = ["allow-ssh-from-trusted-in"]
+
+    source_ranges   = "${var.public_trusted_hosts}"
+    target_tags     = ["allow-ssh-from-trusted-in"]
+
 }
 
 # ----- Rules for All
 resource "google_compute_firewall" "allow-all-from-internal-in" {
-  name    = "${var.project_name}-allow-all-from-internal-in"
-  network = "${google_compute_network.vpc.name}"
+  name        = "${var.project_name}-allow-all-from-internal-in"
+  network     = "${google_compute_network.vpc.name}"
+
   allow {
-    protocol = "icmp"
+    protocol  = "icmp"
   }
+
   allow {
-    protocol = "tcp"
-    ports    = ["0-65535"]
+    protocol  = "tcp"
+    ports     = ["0-65535"]
   }
+
   allow {
-    protocol = "udp"
-    ports    = ["0-65535"]
+    protocol  = "udp"
+    ports     = ["0-65535"]
   }
+
   source_ranges = [
     "${local.dmz_subnet}",
     "${local.db_subnet}",
@@ -83,6 +92,7 @@ resource "google_compute_firewall" "allow-all-from-internal-in" {
   ]
   target_tags = ["allow-all-from-internal-in"] 
 }
+
 # ----- Outgouing Rules
 resource "google_compute_firewall" "allow-all-out" {
   name    = "${var.project_name}-allow-all-out"

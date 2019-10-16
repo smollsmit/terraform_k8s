@@ -1,0 +1,10 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "lb-ip-pub"
+spec:
+  backend:
+    serviceName: web
+    servicePort: 8080

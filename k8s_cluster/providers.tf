@@ -19,3 +19,7 @@ data "google_client_config" "default" {
 provider "kubernetes" {
   load_config_file  = false
 }
+
+provider "helm" {
+  install_tiller = true
+}

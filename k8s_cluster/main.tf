@@ -56,3 +56,14 @@ module "google_dns" {
   dns_name            = "${var.env}.${var.project_name}.local" 
   visibility_network  = "${google_compute_network.vpc.self_link}"
 }
+
+#module "google_lb" {
+#  source              = "../modules/google_lb"
+#  project_name        = "${var.project_name}"
+#  env                 = "${var.env}"
+#}
+
+module "k8s_tiller" {
+  source = "../modules/k8s_tiller"
+  #namespase_name = "tiller"
+}

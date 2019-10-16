@@ -7,14 +7,13 @@ resource "google_compute_address" "bastion-ip-pub" {
 resource "google_compute_instance" "bastion" {                                                                                                                                                              
   name         = "bastion"
   machine_type = "f1-micro"
-  tags         = ["allow-ssh-from-trust-in","allow-all-from-internal-in"]
+  tags         = ["allow-ssh-from-trusted-in","allow-all-from-internal-in"]
 
   metadata = {
     sshKeys = "${join("\n", [for user in var.users_devops : "${user}:${file("../globals/pub_keys/${user}.pub")}"])}"
   }
 
-  metadata_startup_script = "sudo apt-get update && sudo apt-get install mc dnsutils"
-
+  metadata_startup_script = "sudo apt-get update && sudo apt-get install dnsutils mc -y"
 
   boot_disk {
     initialize_params {

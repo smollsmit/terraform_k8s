@@ -1,4 +1,9 @@
-# Privat GKE Cluster 
+# Privat GKE Cluster
+
+## Update gcloud
+```
+gcloud components update
+```
 
 ## Generate user's token for auth
 ```
