@@ -29,3 +29,7 @@ override.tf.json
 # ---------- Ignore Credentials
 globals/credentials/*
 !globals/credentials/README.md
+
+# ---------- Ignore Applications
+globals/applications/*
+!globals/applications/README.md

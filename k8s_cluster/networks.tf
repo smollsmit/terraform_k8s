@@ -1,7 +1,16 @@
 # Contains of global network configurations
+
+# ---------- IP Address
+resource "google_compute_address" "bastion-ip-pub" {
+  name = "bastion-ip-pub"
+}
 resource "google_compute_global_address" "lb-ip-pub" {
   name = "lb-ip-pub"
 }
+resource "google_compute_address" "nat-ip-pub" {
+  name = "nat-ip-pub"
+}
+
 # ---------- VPC
 resource "google_compute_network" "vpc" {                                                                                                                                                                   
   name                    =  "${format("%s","${var.project_name}-${var.env}-vpc")}"
@@ -104,4 +113,37 @@ resource "google_compute_firewall" "allow-all-out" {
 
   source_ranges = ["0.0.0.0/0"]
   target_tags = ["allow-all-out"]
+}
+
+# ---------- Cloud NAT
+resource "google_compute_router" "router"{
+  name    = "${var.project_name}-k8s-router"
+  region  = "${google_compute_subnetwork.node_subnet.region}"
+  network = "${google_compute_network.vpc.name}"
+
+  bgp {
+    asn = 64514
+  }
+
+}
+
+resource "google_compute_router_nat" "nat" {
+  name                               = "${var.project_name}-k8s-nat"
+  router                             = "${google_compute_router.router.name}"
+  region                             = "${google_compute_router.router.region}"
+  
+  nat_ip_allocate_option             = "MANUAL_ONLY"
+  nat_ips                            = "${google_compute_address.nat-ip-pub[*].name}"
+
+  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
+    subnetwork {
+      name                    = "${google_compute_subnetwork.node_subnet.name}"
+      source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
+    }
+
+  log_config {
+    enable = true
+    filter = "ERRORS_ONLY"
+  }
+
 }
