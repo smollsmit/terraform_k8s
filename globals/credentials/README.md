@@ -1,1 +1,1 @@
-# Folder for credentioals
+# Folder for credentials

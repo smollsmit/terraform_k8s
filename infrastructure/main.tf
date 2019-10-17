@@ -16,6 +16,7 @@ module "project_services" {
 }
 
 # ---------- Modules
+# Create private Kubernetes cluster with the predefined parameters
 module "k8s_cluster" {
   source        = "../modules/k8s_cluster"
   project       = "${var.project_name}"
@@ -49,6 +50,7 @@ module "k8s_cluster" {
     },
   ]
 }
+
 module "google_dns" {
   source              = "../modules/google_dns"
   project_name        = "${var.project_name}"
@@ -75,7 +77,7 @@ module "google_vm" {
       subnetwork    = "${google_compute_subnetwork.dmz_subnet.name}"
       ip_int        = "${local.bastion_ip_int}"
       ip_pub        = "${google_compute_address.bastion-ip-pub.address}"
-      tags          = ["allow-ssh-from-trusted-in","allow-all-from-internal-in"]
+      tags          = ["allow-ssh-from-trusted","allow-all-internal"]
       preemptible   = true
     },
     {
@@ -90,7 +92,7 @@ module "google_vm" {
       subnetwork    = "${google_compute_subnetwork.db_subnet.name}"
       ip_int        = "${local.mysql_ip_int}"
       ip_pub        = ""
-      tags          = []
+      tags          = ["allow-all-internal"]
       preemptible   = true
     },
   ]

@@ -40,29 +40,29 @@ resource "google_compute_subnetwork" "db_subnet" {
 
 # ---------- Firewall's rule
 # ----- Web Rules
-resource "google_compute_firewall" "allow-web-from-all-in" {
-    name    = "${var.project_name}-${var.env}-allow-web-from-all-in"
+resource "google_compute_firewall" "allow-web-from-all" {
+    name    = "${var.project_name}-${var.env}-allow-web-from-all"
     network = "${google_compute_network.vpc.name}"
     allow {
         protocol = "tcp"
         ports    = ["80","443"]
     }
     source_ranges = ["0.0.0.0/0"]
-    target_tags = ["allow-web-from-all-in"]
+    target_tags = ["allow-web-from-all"]
 }
 # ----- SSH Rules
-resource "google_compute_firewall" "allow-ssh-from-all-in" {
-    name    = "${var.project_name}-${var.env}-allow-ssh-from-all-in"
+resource "google_compute_firewall" "allow-ssh-from-all" {
+    name    = "${var.project_name}-${var.env}-allow-ssh-from-all"
     network = "${google_compute_network.vpc.name}"
     allow {
         protocol = "tcp"
         ports    = ["22"]
     }
     source_ranges = ["0.0.0.0/0"]
-    target_tags = ["allow-ssh-from-all-in"]
+    target_tags = ["allow-ssh-from-all"]
 }
-resource "google_compute_firewall" "allow-ssh-from-trusted-in" {
-    name    = "${var.project_name}-${var.env}-allow-ssh-from-trusted-in"
+resource "google_compute_firewall" "allow-ssh-from-trusted" {
+    name    = "${var.project_name}-${var.env}-allow-ssh-from-trusted"
     network = "${google_compute_network.vpc.name}"
     allow {
         protocol = "tcp"
@@ -70,13 +70,13 @@ resource "google_compute_firewall" "allow-ssh-from-trusted-in" {
     }
 
     source_ranges   = "${var.public_trusted_hosts}"
-    target_tags     = ["allow-ssh-from-trusted-in"]
+    target_tags     = ["allow-ssh-from-trusted"]
 
 }
 
 # ----- Rules for All
-resource "google_compute_firewall" "allow-all-from-internal-in" {
-  name        = "${var.project_name}-${var.env}-allow-all-from-internal-in"
+resource "google_compute_firewall" "allow-all-internal" {
+  name        = "${var.project_name}-${var.env}-allow-all-internal"
   network     = "${google_compute_network.vpc.name}"
 
   allow {
@@ -99,20 +99,7 @@ resource "google_compute_firewall" "allow-all-from-internal-in" {
     "${local.node_subnet}",
     "${local.master_subnet}"
   ]
-  target_tags = ["allow-all-from-internal-in"] 
-}
-
-# ----- Outgouing Rules
-resource "google_compute_firewall" "allow-all-out" {
-  name    = "${var.project_name}-${var.env}-allow-all-out"
-  network = "${google_compute_network.vpc.name}"
-
-  allow {
-    protocol = "all"
-  }
-
-  source_ranges = ["0.0.0.0/0"]
-  target_tags = ["allow-all-out"]
+  target_tags = ["allow-all-internal"] 
 }
 
 # ---------- Cloud NAT
