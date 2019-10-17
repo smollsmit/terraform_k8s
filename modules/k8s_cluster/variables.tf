@@ -2,7 +2,7 @@ variable "location" {
   default = "undefined"
 }
 
-variable "project" {
+variable "project_name" {
   default = "undefined"
 }
 
@@ -38,12 +38,12 @@ variable "initial_node_count" {
 }
 
 variable "logging_service" {
-  description = "The logging service that the cluster should write logs to. Available options include logging.googleapis.com, logging.googleapis.com/kubernetes (beta), and none"
+  description = "The logging service that the cluster should write logs to."
   default     = "logging.googleapis.com"
 }
 
 variable "monitoring_service" {
-  description = "The monitoring service that the cluster should write metrics to. Automatically send metrics from pods in the cluster to the Google Cloud Monitoring API. VM metrics will be collected by Google Compute Engine regardless of this setting Available options include monitoring.googleapis.com, monitoring.googleapis.com/kubernetes (beta) and none"
+  description = "The monitoring service that the cluster should write metrics to."
   default     = "monitoring.googleapis.com"
 }
 

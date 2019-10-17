@@ -19,7 +19,7 @@ module "project_services" {
 # Create private Kubernetes cluster with the predefined parameters
 module "k8s_cluster" {
   source        = "../modules/k8s_cluster"
-  project       = "${var.project_name}"
+  project_name  = "${var.project_name}"
   project_id    = "${local.project_id}"
   env           = "${var.env}"
   location      = "${var.zone}"

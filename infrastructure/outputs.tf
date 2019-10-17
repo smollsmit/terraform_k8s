@@ -15,3 +15,8 @@ output "cluster_location" {
 output "cluster_endpoint" {
   value = "${module.k8s_cluster.endpoint}"
 }
+
+# ---------- VMs
+output "vm_public_ip" {
+  value = "${module.google_vm.vm_public_ip}"
+}

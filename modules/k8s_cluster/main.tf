@@ -1,5 +1,5 @@
 resource "google_container_cluster" "k8s_cluster" {
-  name      = "${var.project}-${var.env}"
+  name      = "${var.project_name}-${var.env}"
   location  = "${var.location}"
   
   network       = "${var.network}"
@@ -56,7 +56,7 @@ resource "google_container_node_pool" "pools" {
 
     labels = {
       env             = "${var.env}"
-      project         = "${var.project}"
+      project         = "${var.project_name}"
       node_pool_name  = "${var.node_pools[count.index]["name"]}"
     }
   }
@@ -65,7 +65,7 @@ resource "google_container_node_pool" "pools" {
 resource "null_resource" "get-credentials" {
 
   provisioner "local-exec" {
-    command = "gcloud container clusters get-credentials ${var.project}-${var.env} --project ${var.project_id} --zone ${var.location}"
+    command = "gcloud container clusters get-credentials ${var.project_name}-${var.env} --project ${var.project_id} --zone ${var.location}"
   }
  
   depends_on = [
