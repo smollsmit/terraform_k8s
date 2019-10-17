@@ -15,6 +15,7 @@ resource "google_compute_instance" "compute_instance" {
     initialize_params {
       type  = "${var.node_pools[count.index]["disk_type"]}"
       image = "${var.vm_image}"
+      size  = "${var.node_pools[count.index]["disk_size_gb"]}"
     }
   }
 

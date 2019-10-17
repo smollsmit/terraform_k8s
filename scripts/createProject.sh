@@ -16,6 +16,10 @@ role="owner"
 # Create project
 gcloud projects create ${project_id} --name=${project}-${env} --labels=project=${project} 
 
+# Delete default Firewall rules and VPC
+gcloud -q compute firewall-rules delete default-allow-icmp default-allow-internal default-allow-rdp default-allow-ssh
+gcloud compute networks delete default --project=${project_id}
+
 # Get billing account: gcloud beta billing accounts list
 gcloud beta billing projects link ${project_id} --billing-account ${billing_account}
 
