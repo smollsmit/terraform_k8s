@@ -41,7 +41,7 @@ resource "google_compute_subnetwork" "db_subnet" {
 # ---------- Firewall's rule
 # ----- Web Rules
 resource "google_compute_firewall" "allow-web-from-all-in" {
-    name    = "${var.project_name}-allow-web-from-all-in"
+    name    = "${var.project_name}-${var.env}-allow-web-from-all-in"
     network = "${google_compute_network.vpc.name}"
     allow {
         protocol = "tcp"
@@ -52,7 +52,7 @@ resource "google_compute_firewall" "allow-web-from-all-in" {
 }
 # ----- SSH Rules
 resource "google_compute_firewall" "allow-ssh-from-all-in" {
-    name    = "${var.project_name}-allow-ssh-from-all-in"
+    name    = "${var.project_name}-${var.env}-allow-ssh-from-all-in"
     network = "${google_compute_network.vpc.name}"
     allow {
         protocol = "tcp"
@@ -62,7 +62,7 @@ resource "google_compute_firewall" "allow-ssh-from-all-in" {
     target_tags = ["allow-ssh-from-all-in"]
 }
 resource "google_compute_firewall" "allow-ssh-from-trusted-in" {
-    name    = "${var.project_name}-allow-ssh-from-trusted-in"
+    name    = "${var.project_name}-${var.env}-allow-ssh-from-trusted-in"
     network = "${google_compute_network.vpc.name}"
     allow {
         protocol = "tcp"
@@ -76,7 +76,7 @@ resource "google_compute_firewall" "allow-ssh-from-trusted-in" {
 
 # ----- Rules for All
 resource "google_compute_firewall" "allow-all-from-internal-in" {
-  name        = "${var.project_name}-allow-all-from-internal-in"
+  name        = "${var.project_name}-${var.env}-allow-all-from-internal-in"
   network     = "${google_compute_network.vpc.name}"
 
   allow {
@@ -104,7 +104,7 @@ resource "google_compute_firewall" "allow-all-from-internal-in" {
 
 # ----- Outgouing Rules
 resource "google_compute_firewall" "allow-all-out" {
-  name    = "${var.project_name}-allow-all-out"
+  name    = "${var.project_name}-${var.env}-allow-all-out"
   network = "${google_compute_network.vpc.name}"
 
   allow {
@@ -117,7 +117,7 @@ resource "google_compute_firewall" "allow-all-out" {
 
 # ---------- Cloud NAT
 resource "google_compute_router" "router"{
-  name    = "${var.project_name}-k8s-router"
+  name    = "${var.project_name}-${var.env}-k8s-router"
   region  = "${google_compute_subnetwork.node_subnet.region}"
   network = "${google_compute_network.vpc.name}"
 
@@ -128,7 +128,7 @@ resource "google_compute_router" "router"{
 }
 
 resource "google_compute_router_nat" "nat" {
-  name                               = "${var.project_name}-k8s-nat"
+  name                               = "${var.project_name}-${var.env}-k8s-nat"
   router                             = "${google_compute_router.router.name}"
   region                             = "${google_compute_router.router.region}"
   

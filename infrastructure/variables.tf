@@ -45,7 +45,7 @@ variable "api_services" {
 variable "public_trusted_hosts" {
   default = "undefined"
 }
-variable "vpc_subnet" {
+variable "vpc_network" {
   default = "undefined"
 }
 

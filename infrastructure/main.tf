@@ -53,6 +53,45 @@ module "google_dns" {
   source              = "../modules/google_dns"
   project_name        = "${var.project_name}"
   env                 = "${var.env}"
-  dns_name            = "${var.env}.${var.project_name}.local" 
+  dns_zone_name       = "${var.env}.${var.project_name}.local" 
   visibility_network  = "${google_compute_network.vpc.self_link}"
+}
+
+module "google_vm" {
+  source        = "../modules/google_vm"
+  project_name  = "${var.project_name}"
+  env           = "${var.env}"
+  
+  node_pools = [
+    {
+      count    = "1"
+      name          = "bastion"
+      dns_zone_name = "${var.env}.${var.project_name}.local"
+      machine_type  = "f1-micro"
+      disk_size_gb  = 10
+      disk_type     = "pd-standard"
+      ssh_users     = ""
+      packages      = ""
+      subnetwork    = "${google_compute_subnetwork.dmz_subnet.name}"
+      ip_int        = "${local.bastion_ip_int}"
+      ip_pub        = "${google_compute_address.bastion-ip-pub.address}"
+      tags          = ["allow-ssh-from-trusted-in","allow-all-from-internal-in"]
+      preemptible   = true
+    },
+    {
+      count    = "1"
+      name          = "mysql-master"
+      dns_zone_name = "${var.env}.${var.project_name}.local" 
+      machine_type  = "f1-micro"
+      disk_size_gb  = 10
+      disk_type     = "pd-standard"
+      ssh_users     = ""
+      packages      = ""
+      subnetwork    = "${google_compute_subnetwork.db_subnet.name}"
+      ip_int        = "${local.mysql_ip_int}"
+      ip_pub        = ""
+      tags          = []
+      preemptible   = true
+    },
+  ]
 }

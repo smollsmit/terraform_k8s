@@ -2,7 +2,7 @@ variable "project_name" {
   description = "(Required) A textual description field. Defaults to 'Managed by Terraform'."
   default     = "undefined"
 }
-variable "dns_name" {
+variable "dns_zone_name" {
   description = "(Required) The fully qualified DNS name of this zone"
   default     = "undefined"
 }
