@@ -19,16 +19,9 @@ variable "ssh_users" {
 
 variable "node_pools" {
   description = "List of maps containing node pools"
-
-  default = [
-    {
-      name          = "default"
-      node_count    = "1"
-      machine_type  = "f1-micro"
-    },
-  ]
+  default = [{}]
 }
 
-variable "managed_zone" {
-  default = "undefined"
+variable "vm_image" {
+  default = "debian-cloud/debian-9"
 }

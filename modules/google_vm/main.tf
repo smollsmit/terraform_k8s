@@ -13,7 +13,8 @@ resource "google_compute_instance" "compute_instance" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-9"
+      type  = "${var.node_pools[count.index]["disk_type"]}"
+      image = "${var.vm_image}"
     }
   }
 
@@ -21,10 +22,14 @@ resource "google_compute_instance" "compute_instance" {
     subnetwork  = "${var.node_pools[count.index]["subnetwork"]}"
     network_ip  = "${var.node_pools[count.index]["ip_int"]}"
 
-    access_config {
-      nat_ip = "${var.node_pools[count.index]["ip_pub"]}"
-    }
+    dynamic "access_config" {
+      for_each = var.node_pools[count.index]["ip_pub_enabled"] ? [""] : []
 
+      content {
+        nat_ip = "${var.node_pools[count.index]["ip_pub_value"]}"
+      }
+
+    }
   }
 }
 
