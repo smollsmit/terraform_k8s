@@ -17,8 +17,8 @@ module "project_services" {
 
 # ---------- Modules
 # Create private Kubernetes cluster with the predefined parameters
-module "k8s_cluster" {
-  source        = "../modules/k8s_cluster"
+module "google_k8s" {
+  source        = "../modules/google_k8s"
   project_name  = "${var.project_name}"
   project_id    = "${local.project_id}"
   env           = "${var.env}"
@@ -92,7 +92,7 @@ module "google_vm" {
       packages        = ""
       subnetwork      = "${google_compute_subnetwork.db_subnet.name}"
       ip_int          = "${local.mysql_ip_int}"
-      ip_pub_enabled  = false
+      ip_pub_enabled  = false 
       ip_pub_value    = ""
       tags            = ["allow-all-internal"]
       preemptible     = true

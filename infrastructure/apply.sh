@@ -11,5 +11,5 @@ terraform plan -var-file ${varfile} -var="tfplan=${date}" -out ${planfile}
 terraform apply ${planfile}
 
 if [ -f "${planfile}" ]; then
-    echo "Tfplan was generated at ${date}" >> ${logfile}
+    echo "Tfplan was successfully generated at ${date} by $USER" >> ${logfile}
 fi

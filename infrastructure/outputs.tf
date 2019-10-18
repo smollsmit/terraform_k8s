@@ -5,15 +5,15 @@ output "project_id" {
 
 # ---------- GKE cluster
 output "cluster_name" {
-  value = "${module.k8s_cluster.name}"
+  value = "${module.google_k8s.name}"
 }
 
 output "cluster_location" {
-  value = "${module.k8s_cluster.location}"
+  value = "${module.google_k8s.location}"
 }
 
 output "cluster_endpoint" {
-  value = "${module.k8s_cluster.endpoint}"
+  value = "${module.google_k8s.endpoint}"
 }
 
 # ---------- VMs
