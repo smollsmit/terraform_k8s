@@ -48,6 +48,13 @@ variable "public_trusted_hosts" {
 variable "vpc_network" {
   default = "undefined"
 }
+variable "vpn_peer_ip" {
+  default = "undefined"
+}
+
+variable "vpn_remote_network" {
+  default = "undefined"
+}
 
 # ---------- Users
 variable "billing_accaunt" {
@@ -66,10 +73,7 @@ variable "backend_node_count" {
   default = "1"
 }
 
-# ---------- DNS
-variable "dns_a_records" {
-  default = {
-    "bastion" = "10.90.254.250",
-    "lb"      = "10.90.254.251"
-  }
+# ---------- VPN
+variable "vpn_shared_secret" {
+  default = "undefined"
 }

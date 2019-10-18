@@ -25,3 +25,9 @@ gcloud container clusters get-credentials <cluster_name> --zone <zone>
 ```
 terraform plan -var-file ${varfile} -var="tfplan=${date}" -out ${planfile} -target module.google_dns
 ```
+
+# VPN Configurations
+### Generate PreShared key 
+```
+pwgen -s -N 1 -cn 64
+```
