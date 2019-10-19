@@ -3,18 +3,18 @@
 # Current stable version v2.14.3
 
 # ---------- Variables
-helm_version_params=$1
-helm_version_default="v2.14.3"
-helm_version=""
+version_params=$1
+version_default="v2.14.3"
+version=""
 path="/tmp"
 
-if [ -z ${helm_version_params} ]; 
-    then helm_version=${helm_version_default};
-else helm_version=${helm_version_params}; fi
+if [ -z ${version_params} ]; 
+    then version=${version_default};
+else version=${version_params}; fi
 
-echo "Install HELM version ${helm_version}"
+echo "Install version ${helm_version}"
 
-arc_name=helm-${helm_version}-linux-amd64.tar.gz
+arc_name=helm-${version}-linux-amd64.tar.gz
 
 rm -rf ${path}/${arc_name}
 rm -rf ${path}/linux-amd64
@@ -24,5 +24,8 @@ cd ${path} && tar -zxvf ${arc_name}
 
 sudo cp ${path}/linux-amd64/helm /usr/local/bin/helm
 
-helm init 
+helm completion bash
+source <(helm completion bash)
+
+#helm init 
 helm version
