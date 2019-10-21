@@ -1,11 +1,16 @@
 # ---------- IP Address
 resource "google_compute_address" "vpn-ip-pub" {
-  name = "vpn-ip-pub"  
+  name = "vpn-ip-pub"
+  
+  lifecycle {
+    prevent_destroy = true
+  }
+
 }
 
 resource "google_compute_vpn_gateway" "vpn_gateway" {
   name    = "${var.project_name}-${var.env}-vpn-gateway"
-  network = "${google_compute_network.vpc.self_link}"
+  network = "${var.network}"
 }
 
 # ---------- Forwarding rules
@@ -55,7 +60,7 @@ resource "google_compute_vpn_tunnel" "vpn_tunnel" {
 resource "google_compute_route" "compute_route" {
   name        = "${var.project_name}-${var.env}-vpn-route"
   dest_range  = "${var.vpn_remote_network}"
-  network     = "${google_compute_network.vpc.name}"
+  network     = "${var.network}"
   next_hop_vpn_tunnel = "${google_compute_vpn_tunnel.vpn_tunnel.self_link}"
   priority    = 100
 }

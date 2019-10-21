@@ -99,3 +99,13 @@ module "google_vm" {
     },
   ]
 }
+
+module "google_vpn" {
+  source              = "../modules/google_vpn"
+  project_name        = "${var.project_name}"
+  env                 = "${var.env}"
+  network             = "${google_compute_network.vpc.self_link}"
+  vpn_peer_ip         = "${var.vpn_peer_ip}"
+  vpn_shared_secret   = "${var.vpn_shared_secret}"
+  vpn_remote_network  = "${var.vpn_remote_network}"
+}
