@@ -39,11 +39,11 @@ resource "google_compute_vpn_tunnel" "vpn_tunnel" {
   shared_secret = "${var.vpn_shared_secret}"
   ike_version   = "2"
   
-  local_traffic_selector  = ["${var.vpc_network}"]
-  remote_traffic_selector = ["${var.vpn_remote_network}"]
+  local_traffic_selector  = ["0.0.0.0/0"] # For policy based ["${var.vpc_network}"]
+  remote_traffic_selector = ["0.0.0.0/0"] # For policy based ["${var.vpn_remote_network}"]
 
-  target_vpn_gateway = "${google_compute_vpn_gateway.vpn_gateway.self_link}"
-
+  target_vpn_gateway      = "${google_compute_vpn_gateway.vpn_gateway.self_link}"
+  
   depends_on = [
     "google_compute_forwarding_rule.forwarding_rule_esp",
     "google_compute_forwarding_rule.forwarding_rule_udp_500",

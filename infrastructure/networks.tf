@@ -97,14 +97,15 @@ resource "google_compute_firewall" "allow-all-internal" {
     "${local.dmz_subnet}",
     "${local.db_subnet}",
     "${local.node_subnet}",
-    "${local.master_subnet}"
+    "${local.master_subnet}",
+    "${var.vpn_remote_network}"
   ]
   target_tags = ["allow-all-internal"] 
 }
 
 # ---------- Cloud NAT
 resource "google_compute_router" "router"{
-  name    = "${var.project_name}-${var.env}-k8s-router"
+  name    = "${var.project_name}-${var.env}-router"
   region  = "${google_compute_subnetwork.node_subnet.region}"
   network = "${google_compute_network.vpc.name}"
 
@@ -115,7 +116,7 @@ resource "google_compute_router" "router"{
 }
 
 resource "google_compute_router_nat" "nat" {
-  name                               = "${var.project_name}-${var.env}-k8s-nat"
+  name                               = "${var.project_name}-${var.env}-nat"
   router                             = "${google_compute_router.router.name}"
   region                             = "${google_compute_router.router.region}"
   
@@ -124,7 +125,7 @@ resource "google_compute_router_nat" "nat" {
 
   source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
     subnetwork {
-      name                    = "${google_compute_subnetwork.node_subnet.name}"
+      name                    = "${google_compute_subnetwork.node_subnet.self_link}"
       source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
     }
 
