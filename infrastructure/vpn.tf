@@ -39,8 +39,13 @@ resource "google_compute_vpn_tunnel" "vpn_tunnel" {
   shared_secret = "${var.vpn_shared_secret}"
   ike_version   = "2"
   
+<<<<<<< HEAD
   local_traffic_selector  = ["0.0.0.0/0"] # For policy based ["${var.vpc_network}"]
   remote_traffic_selector = ["0.0.0.0/0"] # For policy based ["${var.vpn_remote_network}"]
+=======
+  local_traffic_selector  = ["${var.vpc_network}"]
+  remote_traffic_selector = ["${var.vpn_remote_network}"]
+>>>>>>> 1c757275e85f0a8c076b8c41478a87dd32f4c748
 
   target_vpn_gateway      = "${google_compute_vpn_gateway.vpn_gateway.self_link}"
   
