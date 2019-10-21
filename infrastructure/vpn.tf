@@ -39,13 +39,8 @@ resource "google_compute_vpn_tunnel" "vpn_tunnel" {
   shared_secret = "${var.vpn_shared_secret}"
   ike_version   = "2"
   
-<<<<<<< HEAD
-  local_traffic_selector  = ["0.0.0.0/0"] # For policy based ["${var.vpc_network}"]
-  remote_traffic_selector = ["0.0.0.0/0"] # For policy based ["${var.vpn_remote_network}"]
-=======
-  local_traffic_selector  = ["${var.vpc_network}"]
-  remote_traffic_selector = ["${var.vpn_remote_network}"]
->>>>>>> 1c757275e85f0a8c076b8c41478a87dd32f4c748
+  local_traffic_selector  = ["0.0.0.0/0"]   # For policy based ["${var.vpc_network}"]
+  remote_traffic_selector = ["0.0.0.0/0"]   # For policy based ["${var.vpn_remote_network}"]
 
   target_vpn_gateway      = "${google_compute_vpn_gateway.vpn_gateway.self_link}"
   
@@ -54,4 +49,13 @@ resource "google_compute_vpn_tunnel" "vpn_tunnel" {
     "google_compute_forwarding_rule.forwarding_rule_udp_500",
     "google_compute_forwarding_rule.forwarding_rule_udp_4500",
   ]
+}
+
+# ---------- VPN Rotes to remote Network
+resource "google_compute_route" "compute_route" {
+  name        = "${var.project_name}-${var.env}-vpn-route"
+  dest_range  = "${var.vpn_remote_network}"
+  network     = "${google_compute_network.vpc.name}"
+  next_hop_vpn_tunnel = "${google_compute_vpn_tunnel.vpn_tunnel.self_link}"
+  priority    = 100
 }
