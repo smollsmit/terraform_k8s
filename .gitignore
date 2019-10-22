@@ -10,7 +10,7 @@
 *.tfplan
 *.tfplan.*
 
-# ---------- .tfplan files
+# ---------- .tfvars files
 *.tfvars
 *.tfvars.json
 *.auto.tfvars
@@ -33,3 +33,7 @@ globals/credentials/*
 # ---------- Ignore Applications
 globals/applications/*
 !globals/applications/README.md
+
+# ---------- Ignore Credentials
+globals/variables/*
+!globals/credentials/README.md

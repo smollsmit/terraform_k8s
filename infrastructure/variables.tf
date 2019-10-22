@@ -24,10 +24,6 @@ variable "zone" {
   default = "europe-west3-a"
 }
 
-variable "tfplan" {
-  default = "undefined"
-}
-
 variable "api_services" {
   default = [
     "cloudresourcemanager.googleapis.com",

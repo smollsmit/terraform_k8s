@@ -11,15 +11,3 @@ provider "google-beta" {
   region      = "${var.region}"
   zone        = "${var.zone}"
 }
-
-data "google_client_config" "default" {
-  provider = "google"
-}
-
-provider "kubernetes" {
-  load_config_file  = false
-}
-
-provider "helm" {
-  install_tiller = true
-}

@@ -1,8 +1,3 @@
-# ---------- Get project_id
-data "external" "credentials" {
-  program = ["cat", "../globals/credentials/${var.project_name}-${var.env}.json"]
-}
-
 # ---------- Enable Google API
 module "project_services" {
   source  = "terraform-google-modules/project-factory/google//modules/project_services"

@@ -2,9 +2,9 @@
 resource "google_compute_address" "vpn-ip-pub" {
   name = "vpn-ip-pub"
   
-  lifecycle {
-    prevent_destroy = true
-  }
+  #lifecycle {
+  #  prevent_destroy = true
+  #}
 
 }
 

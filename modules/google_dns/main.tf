@@ -12,8 +12,8 @@ resource "google_dns_managed_zone" "private_zone_local" {
     }
   }
 
-  lifecycle {
-      ignore_changes = []
-      create_before_destroy = true
-  }
+  #lifecycle {
+  #    ignore_changes = []
+  #    create_before_destroy = true
+  #}
 }
