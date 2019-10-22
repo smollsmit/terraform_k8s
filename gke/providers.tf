@@ -32,10 +32,11 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  install_tiller  = true
+  install_tiller  = false
   service_account = "tiller"
   namespace       = "kube-system"
   tiller_image    = "gcr.io/kubernetes-helm/tiller:v2.14.3"
+  enable_tls      = true
 
   kubernetes {
     host = "https://${data.google_container_cluster.container_cluster.endpoint}"

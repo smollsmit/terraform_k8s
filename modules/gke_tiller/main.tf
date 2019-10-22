@@ -30,6 +30,4 @@ resource "null_resource" "helm_init" {
     command   = "helm init --service-account tiller --wait"
   }
 
-  #depends_on  = ["${kubernetes_service_account.tiller}", "${kubernetes_cluster_role_binding.tiller}"]
-
 }

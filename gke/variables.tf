@@ -18,3 +18,20 @@ variable "region" {
 variable "zone" {
   default = "europe-west3-a"
 }
+
+# ---------- Docker registry
+variable "docker_server" {
+  default = "undefined"
+}
+
+variable "docker_username" {
+  default = "undefined"
+}
+
+variable "docker_password" {
+  default = "undefined"
+}
+
+variable "docker_email" {
+  default = "undefined"
+}

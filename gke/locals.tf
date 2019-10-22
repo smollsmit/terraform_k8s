@@ -4,4 +4,12 @@ data "external" "credentials" {
 
 locals {
   project_id      = "${data.external.credentials.result.project_id}"
+
+  dockercfg = {
+   "${var.docker_server}" = {
+      email    = "${var.docker_email}"
+      username = "${var.docker_username}"
+      password = "${var.docker_password}"
+    }
+  }
 }
