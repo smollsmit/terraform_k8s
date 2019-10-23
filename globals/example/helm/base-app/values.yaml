@@ -1,0 +1,90 @@
+environment: ""
+appName: ""
+nodeSelector: {}
+deploySecretHarbor: false
+deploySecretNexus: false
+tracingEnabled: false 
+containerArgs: ""
+replicas: 1
+buildId:
+environment: ""
+
+service:
+  type: ClusterIP
+  ports:
+    http:
+      externalPort: 8080
+      internalPort: 8080
+      protocol: TCP
+
+serviceExternal: 
+  enabled: false
+  
+serviceExternalName:
+  enabled: false
+  externalName: ""
+
+image:
+  repository: ""
+  tag: ""
+
+prometheus:
+  enabled: false
+  port: "8011"
+
+resources: {}
+  # requests:
+  #   memory: 400Mi
+
+ingress:
+  enabled: false
+
+job:
+#If true, create simple jobs, e.g. migration
+  enabled: false
+  spec: {}
+  # printenv:
+  #   command: ["printenv"]
+  #   args: ["HOSTNAME", "PATH"]
+  # host:
+  #   command: ["echo"]
+  #   args: ["HELLO", "WORLD"]
+
+cronjob:
+#If true, create cron jobs
+  enabled: false
+  spec: {}
+  # printenv:
+  #   command: ["printenv"]
+  #   args: ["HOSTNAME","PATH"]
+  #   schedule: "* * * * *"
+  # host:
+  #   command: ["echo"]
+  #   args: ["HELLO", "WORLD"]
+  #   schedule: "*/2 * * * *"
+
+
+livenessProbe:
+  enabled: false
+  mode: httpGet
+  execCommand:
+    command: "cat"
+  httpGet:
+    port: 80
+    path: "/health"
+  tcpSocket:
+    port: 80
+
+readinessProbe:
+  enabled: false
+  mode: httpGet
+  execCommand:
+    command: "cat"
+  httpGet:
+    port: 80
+    path: "/health"
+  tcpSocket:
+    port: 80
+
+secrets: {}
+configmap: {}

@@ -1,0 +1,19 @@
+{{- if .Values.serviceExternalName.enabled -}}
+  {{- $root := . -}}
+  {{- $appname := printf "%s" (include "name" .) -}}
+  {{- range $key, $value := .Values.serviceExternalName.services }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $key }}
+  labels:
+    app: {{ $appname }}
+    chart: "{{ $root.Chart.Name }}-{{ $root.Chart.Version }}"
+    release: "{{ $root.Release.Name }}"
+spec:
+  externalName: {{ $value.externalName }}
+  sessionAffinity: None
+  type: ExternalName
+  {{- end -}}
+{{- end -}}

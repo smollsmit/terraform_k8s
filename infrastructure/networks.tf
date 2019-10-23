@@ -1,12 +1,12 @@
 # Contains of global network configurations
 
 # ---------- IP Address
-resource "google_compute_address" "bastion-ip-pub" {
-  name = "bastion-ip-pub"
-}
-resource "google_compute_global_address" "lb-ip-pub" {
-  name = "lb-ip-pub"
-}
+#resource "google_compute_address" "bastion-ip-pub" {
+#  name = "bastion-ip-pub"
+#}
+#resource "google_compute_global_address" "lb-ip-pub" {
+#  name = "lb-ip-pub"
+#}
 resource "google_compute_address" "nat-ip-pub" {
   name = "nat-ip-pub"
 }
@@ -19,24 +19,24 @@ resource "google_compute_network" "vpc" {
 }
 
 # ---------- Subnetwork
-resource "google_compute_subnetwork" "dmz_subnet" {
-  name          = "${format("%s","${google_compute_network.vpc.name}-dmz-subnet")}"
-  ip_cidr_range = "${local.dmz_subnet}"
-  network       = "${google_compute_network.vpc.name}"
-  region        = "${var.region}"
-}
+#resource "google_compute_subnetwork" "dmz_subnet" {
+#  name          = "${format("%s","${google_compute_network.vpc.name}-dmz-subnet")}"
+#  ip_cidr_range = "${local.dmz_subnet}"
+#  network       = "${google_compute_network.vpc.name}"
+#  region        = "${var.region}"
+#}
 resource "google_compute_subnetwork" "node_subnet" {
   name          = "${format("%s","${google_compute_network.vpc.name}-node-subnet")}"
   ip_cidr_range = "${local.node_subnet}"
   network       = "${google_compute_network.vpc.name}"
   region        = "${var.region}"
 }
-resource "google_compute_subnetwork" "db_subnet" {
-  name          = "${format("%s","${google_compute_network.vpc.name}-db-subnet")}"
-  ip_cidr_range = "${local.db_subnet}"
-  network       = "${google_compute_network.vpc.name}"
-  region        = "${var.region}"
-}
+#resource "google_compute_subnetwork" "db_subnet" {
+#  name          = "${format("%s","${google_compute_network.vpc.name}-db-subnet")}"
+#  ip_cidr_range = "${local.db_subnet}"
+#  network       = "${google_compute_network.vpc.name}"
+#  region        = "${var.region}"
+#}
 
 # ---------- Firewall's rule
 # ----- Web Rules
@@ -101,6 +101,29 @@ resource "google_compute_firewall" "allow-all-internal" {
     "${var.vpn_remote_network}"
   ]
   target_tags = ["allow-all-internal"] 
+}
+
+resource "google_compute_firewall" "allow-all-from-trusted" {
+  name    = "${var.project_name}-${var.env}-allow-all-from-trusted"
+  network = "${google_compute_network.vpc.name}"
+   
+  allow {
+    protocol  = "icmp"
+  }
+
+  allow {
+    protocol  = "tcp"
+    ports     = ["0-65535"]
+  }
+
+  allow {
+    protocol  = "udp"
+    ports     = ["0-65535"]
+  }
+
+  source_ranges   = "${var.public_trusted_hosts}"
+  target_tags     = ["allow-all-from-trusted"]
+
 }
 
 # ---------- Cloud NAT

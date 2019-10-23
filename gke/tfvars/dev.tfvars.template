@@ -1,0 +1,9 @@
+# ---------- Project vars
+project_name  = ""
+env           = ""
+
+# ---------- Docker Registry
+docker_server   = ""
+docker_username = ""
+docker_password = ""
+docker_email    = ""

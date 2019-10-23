@@ -1,0 +1,6 @@
+description: Deployment for base app
+maintainers:
+- email: devops@google.com
+  name: DevOps
+name: base-app
+version: 0.1.0

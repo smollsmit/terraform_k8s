@@ -1,0 +1,21 @@
+{{- if .Values.secrets -}}
+{{- $appname := printf "%s" (include "name" .) -}}
+{{- $vaultpath := printf "secret/infra/%s/%s/%s" .Release.Namespace (include "name" .)  .Values.environment -}}
+apiVersion: "koudingspawn.de/v1"
+kind: Vault
+metadata:
+  name: {{ $appname }}
+  labels:
+    helm.sh/chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation
+    "helm.sh/hook-weight": "-4"  
+  labels:
+    app: {{ template "name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"  
+spec:
+  path: {{ $vaultpath }}
+  type: "KEYVALUEV2"
+{{- end -}}

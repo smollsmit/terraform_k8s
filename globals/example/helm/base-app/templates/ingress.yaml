@@ -1,0 +1,34 @@
+{{- if .Values.ingress.enabled -}}
+{{- $serviceDefaultName :=  printf "%s-%s" (include "name" .) "sv" -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "name" . }}-ingress
+  labels:
+    app: {{ template "name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+{{- if .Values.ingress.annotations }}
+  annotations:
+{{ toYaml .Values.ingress.annotations | indent 4 }}
+{{- end }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.fqdn }}
+    http:
+      paths:
+{{- range $key, $value := .Values.ingress.locations }}
+      - backend:
+          serviceName: {{ default $serviceDefaultName $value.serviceName }}
+          servicePort: {{ default 80 $value.servicePort }}
+        path: {{ $key }}
+{{- end }}
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+  {{- with .Values.ingress.fqdn }}
+    - {{ . }}
+    secretName: {{ . | replace "." "-" }}
+  {{- end }}
+  {{- end }}
+{{- end -}}
