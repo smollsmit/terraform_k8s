@@ -1,8 +1,3 @@
-# ---------- Modules
-module "gke_tiller" {
-  source  = "../modules/gke_tiller"
-}
-
 # ---------- Namespaces
 resource "kubernetes_namespace" "namespace" {
 
@@ -21,7 +16,7 @@ resource "kubernetes_namespace" "namespace" {
 }
 
 # ---------- Install Nginx ingress controller
-resource "helm_release" "nginx-ingress" {
+resource "helm_release" "nginx_ingress" {
   name       = "nginx-ingress"
   chart      = "stable/nginx-ingress"
 
@@ -35,9 +30,17 @@ resource "helm_release" "nginx-ingress" {
     value = true
   }
 
-  #set {
-  #  name  = "controller.service.loadBalancerIP"
-  #  value = "${data.google_compute_address.nginx-ingress-ip-pub.address}"
-  #}
+  set {
+    name  = "controller.service.loadBalancerIP"
+    value = "${local.ingress_ip_pub}"
+  }
+
+  provisioner "local-exec" {
+    command = "helm test nginx-ingress"
+  }
+
+  depends_on = [
+    "null_resource.helm_init"
+  ]
 
 }

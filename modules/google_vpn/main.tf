@@ -1,10 +1,10 @@
 # ---------- IP Address
-resource "google_compute_address" "vpn-ip-pub" {
+resource "google_compute_address" "vpn_ip_pub" {
   name = "vpn-ip-pub"
   
-  #lifecycle {
-  #  prevent_destroy = true
-  #}
+  lifecycle {
+    prevent_destroy = true
+  }
 
 }
 
@@ -17,7 +17,7 @@ resource "google_compute_vpn_gateway" "vpn_gateway" {
 resource "google_compute_forwarding_rule" "forwarding_rule_esp" {
   name        = "forwarding-rule-esp"
   ip_protocol = "ESP"
-  ip_address  = "${google_compute_address.vpn-ip-pub.address}"
+  ip_address  = "${google_compute_address.vpn_ip_pub.address}"
   target      = "${google_compute_vpn_gateway.vpn_gateway.self_link}"
 }
 
@@ -25,7 +25,7 @@ resource "google_compute_forwarding_rule" "forwarding_rule_udp_500" {
   name        = "forwarding-rule-udp-500"
   ip_protocol = "UDP"
   port_range  = "500"
-  ip_address  = "${google_compute_address.vpn-ip-pub.address}"
+  ip_address  = "${google_compute_address.vpn_ip_pub.address}"
   target      = "${google_compute_vpn_gateway.vpn_gateway.self_link}"
 }
 
@@ -33,7 +33,7 @@ resource "google_compute_forwarding_rule" "forwarding_rule_udp_4500" {
   name        = "forwarding-rule-udp-4500"
   ip_protocol = "UDP"
   port_range  = "4500"
-  ip_address  = "${google_compute_address.vpn-ip-pub.address}"
+  ip_address  = "${google_compute_address.vpn_ip_pub.address}"
   target      = "${google_compute_vpn_gateway.vpn_gateway.self_link}"
 }
 

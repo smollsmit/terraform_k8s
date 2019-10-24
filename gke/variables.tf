@@ -35,3 +35,7 @@ variable "docker_password" {
 variable "docker_email" {
   default = "undefined"
 }
+
+variable "ingress_ip_pub" {
+  default = "undefined"
+}
