@@ -31,7 +31,7 @@ resource "google_container_cluster" "k8s_cluster" {
   }
 }
 
-resource "google_container_node_pool" "pools" {
+resource "google_container_node_pool" "node_pools" {
   name        ="${var.node_pools[count.index]["name"]}"
   location    ="${var.location}"
   cluster     ="${google_container_cluster.k8s_cluster.name}"
@@ -62,7 +62,7 @@ resource "google_container_node_pool" "pools" {
   }
 }
 
-resource "null_resource" "get-credentials" {
+resource "null_resource" "get_credentials" {
 
   provisioner "local-exec" {
     command = "gcloud container clusters get-credentials ${var.project_name}-${var.env} --project ${var.project_id} --zone ${var.location}"
@@ -70,6 +70,6 @@ resource "null_resource" "get-credentials" {
  
   depends_on = [
     "google_container_cluster.k8s_cluster",
-    "google_container_node_pool.pools"
+    "google_container_node_pool.node_pools"
   ]
 }

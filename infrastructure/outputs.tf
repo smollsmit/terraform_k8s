@@ -8,7 +8,7 @@ output "project_id" {
 #}
 
 output "nat_public_ip" {
-  value = "${google_compute_address.nat-ip-pub.address}"
+  value = "${google_compute_address.nat_ip_pub.address}"
 }
 
 # ---------- GKE cluster
@@ -25,6 +25,10 @@ output "cluster_endpoint" {
 }
 
 # ---------- VMs
-#output "vm_public_ip" {
-#  value = "${module.google_vm.vm_public_ip}"
+#output "vm_ip_pub" {
+#  value = "${module.google_vm.vm_ip_pub}"
 #}
+
+output "ingress_ip_pub" {
+  value = "${local.ingress_ip_pub}"
+}

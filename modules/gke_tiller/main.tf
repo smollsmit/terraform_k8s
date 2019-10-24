@@ -9,13 +9,21 @@ resource "kubernetes_service_account" "tiller" {
 
 resource "kubernetes_cluster_role_binding" "tiller" {
   metadata {
-    name = "tiller-binding"
+    name = "${kubernetes_service_account.tiller.metadata.0.name}"
   }
 
   subject {
     kind      = "ServiceAccount"
-    name      = "tiller"
+    name      = "default"
     namespace = "kube-system"
+    api_group = ""
+  }
+  
+  subject {
+    kind      = "ServiceAccount"
+    name      = "${kubernetes_service_account.tiller.metadata.0.name}"
+    namespace = "${kubernetes_service_account.tiller.metadata.0.namespace}"
+    api_group = ""
   }
 
   role_ref {

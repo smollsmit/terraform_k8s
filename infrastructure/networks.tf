@@ -1,13 +1,21 @@
 # Contains of global network configurations
 
 # ---------- IP Address
-#resource "google_compute_address" "bastion-ip-pub" {
+#resource "google_compute_address" "bastion_ip_pub" {
 #  name = "bastion-ip-pub"
 #}
-#resource "google_compute_global_address" "lb-ip-pub" {
+
+# ----- IP for nginx-ingress
+resource "google_compute_address" "ingress_ip_pub" {
+  name = "ingress-ip-pub"
+}
+
+#resource "google_compute_global_address" "lb_ip_pub" {
 #  name = "lb-ip-pub"
 #}
-resource "google_compute_address" "nat-ip-pub" {
+
+# ----- IP for outgoing VPC's subnetworks connection
+resource "google_compute_address" "nat_ip_pub" {
   name = "nat-ip-pub"
 }
 
@@ -40,7 +48,7 @@ resource "google_compute_subnetwork" "node_subnet" {
 
 # ---------- Firewall's rule
 # ----- Web Rules
-resource "google_compute_firewall" "allow-web-from-all" {
+resource "google_compute_firewall" "allow_web_from_all" {
     name    = "${var.project_name}-${var.env}-allow-web-from-all"
     network = "${google_compute_network.vpc.name}"
     allow {
@@ -51,7 +59,7 @@ resource "google_compute_firewall" "allow-web-from-all" {
     target_tags = ["allow-web-from-all"]
 }
 # ----- SSH Rules
-resource "google_compute_firewall" "allow-ssh-from-all" {
+resource "google_compute_firewall" "allow_ssh_from_all" {
     name    = "${var.project_name}-${var.env}-allow-ssh-from-all"
     network = "${google_compute_network.vpc.name}"
     allow {
@@ -61,7 +69,7 @@ resource "google_compute_firewall" "allow-ssh-from-all" {
     source_ranges = ["0.0.0.0/0"]
     target_tags = ["allow-ssh-from-all"]
 }
-resource "google_compute_firewall" "allow-ssh-from-trusted" {
+resource "google_compute_firewall" "allow_ssh_from_trusted" {
     name    = "${var.project_name}-${var.env}-allow-ssh-from-trusted"
     network = "${google_compute_network.vpc.name}"
     allow {
@@ -75,7 +83,7 @@ resource "google_compute_firewall" "allow-ssh-from-trusted" {
 }
 
 # ----- Rules for All
-resource "google_compute_firewall" "allow-all-internal" {
+resource "google_compute_firewall" "allow_all_internal" {
   name        = "${var.project_name}-${var.env}-allow-all-internal"
   network     = "${google_compute_network.vpc.name}"
 
@@ -103,7 +111,7 @@ resource "google_compute_firewall" "allow-all-internal" {
   target_tags = ["allow-all-internal"] 
 }
 
-resource "google_compute_firewall" "allow-all-from-trusted" {
+resource "google_compute_firewall" "allow_all_from_trusted" {
   name    = "${var.project_name}-${var.env}-allow-all-from-trusted"
   network = "${google_compute_network.vpc.name}"
    
@@ -138,13 +146,13 @@ resource "google_compute_router" "router"{
 
 }
 
-resource "google_compute_router_nat" "nat" {
-  name                               = "${var.project_name}-${var.env}-nat"
+resource "google_compute_router_nat" "router_nat" {
+  name                               = "${var.project_name}-${var.env}-router-nat"
   router                             = "${google_compute_router.router.name}"
   region                             = "${google_compute_router.router.region}"
   
   nat_ip_allocate_option             = "MANUAL_ONLY"
-  nat_ips                            = "${google_compute_address.nat-ip-pub[*].self_link}"
+  nat_ips                            = "${google_compute_address.nat_ip_pub[*].self_link}"
 
   source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
     subnetwork {

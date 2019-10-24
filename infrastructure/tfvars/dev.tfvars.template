@@ -18,3 +18,11 @@ backend_node_count  = 1
 
 # ---------- Users
 users_devops  = ["test"]
+
+# ---------- CloudFlare
+cf_email  = ""
+cf_token  = ""
+
+# ---------- Domains
+domain_pub  = ""
+domain_loc  = "local"

@@ -3,27 +3,23 @@ variable "organization" {
   type = "string"
   default = "undefined"
 }
-
 variable "project_id" {
   default = "undefined"
 }
-
 variable "project_name" {
   default = "undefined"
 }
-
 variable "env" {
   default = "undefined"
 }
-
 variable "region" {
   default = "europe-west3"  
 }
-
 variable "zone" {
   default = "europe-west3-a"
 }
 
+# ---------- API Enable
 variable "api_services" {
   default = [
     "cloudresourcemanager.googleapis.com",
@@ -44,19 +40,6 @@ variable "public_trusted_hosts" {
 variable "vpc_network" {
   default = "undefined"
 }
-variable "vpn_peer_ip" {
-  default = "undefined"
-}
-
-variable "vpn_remote_network" {
-  default = "undefined"
-}
-
-# ---------- Users
-variable "billing_accaunt" {
-  default = "undefined"
-}
-
 variable "users_devops" {
   default = ""
 }
@@ -71,5 +54,27 @@ variable "backend_node_count" {
 
 # ---------- VPN
 variable "vpn_shared_secret" {
+  default = "undefined"
+}
+variable "vpn_peer_ip" {
+  default = "undefined"
+}
+variable "vpn_remote_network" {
+  default = "undefined"
+}
+
+# ---------- Users
+variable "billing_accaunt" {
+  default = "undefined"
+}
+
+# ---------- Cloudflare 
+variable "cf_email" {
+  default = "undefined"
+}
+variable "cf_token" {
+  default = "undefined"
+}
+variable "cf_zone" {
   default = "undefined"
 }

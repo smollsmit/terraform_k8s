@@ -11,3 +11,9 @@ provider "google-beta" {
   region      = "${var.region}"
   zone        = "${var.zone}"
 }
+
+# Use manual created token.
+provider "cloudflare" {
+  email     = "${var.cf_email}"
+  api_token = "${var.cf_token}"
+}
