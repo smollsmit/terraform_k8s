@@ -67,14 +67,3 @@ variable "vpn_remote_network" {
 variable "billing_accaunt" {
   default = "undefined"
 }
-
-# ---------- Cloudflare 
-variable "cf_email" {
-  default = "undefined"
-}
-variable "cf_token" {
-  default = "undefined"
-}
-variable "cf_zone" {
-  default = "undefined"
-}

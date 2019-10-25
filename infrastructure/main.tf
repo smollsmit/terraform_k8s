@@ -96,11 +96,3 @@ module "google_k8s" {
 #  vpn_shared_secret   = "${var.vpn_shared_secret}"
 #  vpn_remote_network  = "${var.vpn_remote_network}"
 #}
-
-module "cloudflare" {
-  source          = "../modules/cloudflare"
-  project_name    = "${var.project_name}"
-  env             = "${var.env}"
-  cf_zone         = "${var.cf_zone}"
-  ingress_ip_pub  = "${local.ingress_ip_pub}"
-}

@@ -13,17 +13,23 @@ resource "cloudflare_zone_settings_override" "zone_settings" {
 }
 
 resource "cloudflare_record" "a_records" {
+  count   ="${length(var.cf_a_records)}"
   zone_id = "${cloudflare_zone.zone.id}"
-  name    = "@"
-  value   = "${var.ingress_ip_pub}"
+  name    = "${var.cf_a_records[count.index]["name"]}"
+  value   = "${var.cf_a_records[count.index]["value"] == "" ? var.ingress_ip_pub : var.cf_a_records[count.index]["value"]}" 
   type    = "A"
-  proxied = true
+  proxied = "${var.cf_a_records[count.index]["proxied"]}"
 }
 
-resource "cloudflare_record" "wildcard_records" {
+resource "cloudflare_record" "cname_records" {
+  count   ="${length(var.cf_cname_records)}"
   zone_id = "${cloudflare_zone.zone.id}"
-  name    = "*.${var.env}"
-  value   = "${var.ingress_ip_pub}"
-  type    = "A"
-  proxied = false
+  name    = "${var.cf_cname_records[count.index]["name"]}"
+  value   = "${var.cf_cname_records[count.index]["value"] == "" ? var.cf_zone : var.cf_cname_records[count.index]["value"]}" 
+  type    = "CNAME"
+  proxied = "${var.cf_cname_records[count.index]["proxied"]}"
+
+  depends_on = [
+    "cloudflare_record.a_records"
+  ]
 }

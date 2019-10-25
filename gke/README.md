@@ -1,4 +1,4 @@
-# k8s cluster
+# Google kubernetes engine operations 
 
 ## Create secret for docker registry
 ```
