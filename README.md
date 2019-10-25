@@ -1,12 +1,17 @@
 # gcloud features
 
-## Update gcloud
+## Gcloud install (ubuntu)
+```
+https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu
+```
+
+## Gcloud update
 ```
 gcloud components update
 ```
-
 ## Generate user's token for auth
 ```
+gcloud auth login
 gcloud auth application-default login
 ```
 
@@ -32,26 +37,7 @@ terraform plan -var-file ${varfile} -var="tfplan=${date}" -out ${planfile} -targ
 ```
 pwgen -s -N 1 -cn 64
 ```
-# Variables file for environment
+## Import IP Address 
 ```
-# ---------- Project vars
-organization  = ""              # Doesn't use now
-project_name  = ""              # Project name
-env           = ""              # Project env
-
-# ---------- Networking
-vpc_network           = ""      # CIDR
-public_trusted_hosts  = [""]    # List in CIDR format
-
-# ---------- VPN
-vpn_peer_ip         = ""        # IP address of remote vpn gateway
-vpn_shared_secret   = ""        # PreShared key for IPSEC
-vpn_remote_network  = ""        # CIDR
-
-# ---------- Workers
-frontend_node_count = 1
-backend_node_count  = 1
-
-# ---------- Users
-users_devops  = []              # List of users (lookup keys from global/pub_key's folder)
+terraform import -var-file=tfvars/dev.tfvars google_compute_address.ingress_ip_pub ingress-ip-pub
 ```

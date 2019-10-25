@@ -35,3 +35,19 @@ variable "docker_password" {
 variable "docker_email" {
   default = "undefined"
 }
+
+variable "ingress_ip_pub" {
+  default = "undefined"
+}
+
+# ---------- RMQ
+variable "rmq_username" {
+  default = "undefined"
+}
+variable "rmq_password" {
+  default = "undefined"
+}
+
+variable "cf_zone" {
+  default = "undefined"
+}

@@ -7,3 +7,9 @@ docker_server   = ""
 docker_username = ""
 docker_password = ""
 docker_email    = ""
+
+# ---------- RMQ
+rmq_username  = "admin"
+rmq_password  = ""
+
+cf_zone = ""
