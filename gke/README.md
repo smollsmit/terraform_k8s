@@ -1,4 +1,4 @@
-# k8s cluster
+# Google kubernetes engine operations 
 
 ## Create secret for docker registry
 ```
@@ -22,3 +22,8 @@ On Google Kubernetes Engine, if no annotation is defined under the metadata sect
 annotations: kubernetes.io/ingress.class: gce
 ```
 https://github.com/gruntwork-io/terraform-google-gke/blob/v0.1.1/examples/gke-basic-tiller/main.tf
+
+## Install helm charts
+```
+helm install --name rabbitmq --namespace <namespace> -f values_dev.yaml stable/rabbitmq
+```

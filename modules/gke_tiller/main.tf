@@ -34,14 +34,8 @@ resource "kubernetes_cluster_role_binding" "tiller" {
 }
 
 resource "null_resource" "helm_init" {
-
   provisioner "local-exec" {
     command   = "helm init --service-account tiller --wait"
-  }
-
-  provisioner "local-exec" {
-    when = "destroy"
-    command= "kubectl -n kube-system delete deployments tiller-deploy"
   }
 
   depends_on = [

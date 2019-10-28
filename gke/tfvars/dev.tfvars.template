@@ -9,7 +9,7 @@ docker_password = ""
 docker_email    = ""
 
 # ---------- RMQ
-rmq_user      = "admin"
+rmq_username  = "admin"
 rmq_password  = ""
 
 cf_zone = ""

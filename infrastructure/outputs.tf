@@ -3,11 +3,11 @@ output "project_id" {
   value = "${local.project_id}"
 }
 
-#output "vpn_ip_pub" {
+#output "vpn_public_ip" {
 #  value = "${module.google_vpn}"
 #}
 
-output "nat_ip_pub" {
+output "nat_public_ip" {
   value = "${google_compute_address.nat_ip_pub.address}"
 }
 

@@ -3,21 +3,11 @@
 # ---------- IP Address
 #resource "google_compute_address" "bastion_ip_pub" {
 #  name = "bastion-ip-pub"
-#
-#  lifecycle {
-#    prevent_destroy = true
-#  }
-#
 #}
 
 # ----- IP for nginx-ingress
 resource "google_compute_address" "ingress_ip_pub" {
   name = "ingress-ip-pub"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-
 }
 
 #resource "google_compute_global_address" "lb_ip_pub" {
@@ -27,11 +17,6 @@ resource "google_compute_address" "ingress_ip_pub" {
 # ----- IP for outgoing VPC's subnetworks connection
 resource "google_compute_address" "nat_ip_pub" {
   name = "nat-ip-pub"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-
 }
 
 # ---------- VPC

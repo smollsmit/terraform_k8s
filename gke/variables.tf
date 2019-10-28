@@ -41,7 +41,7 @@ variable "ingress_ip_pub" {
 }
 
 # ---------- RMQ
-variable "rmq_user" {
+variable "rmq_username" {
   default = "undefined"
 }
 variable "rmq_password" {

@@ -1,7 +1,7 @@
-output "zone_name" {
+output "cf_zone_name" {
   value = "${cloudflare_zone.zone.zone}"
 }
 
-output "zone_id" {
+output "cf_zone_id" {
   value = "${cloudflare_zone.zone.id}"
 }
