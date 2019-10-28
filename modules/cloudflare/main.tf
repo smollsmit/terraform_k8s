@@ -20,6 +20,14 @@ resource "cloudflare_record" "a_records" {
   proxied = true
 }
 
+resource "cloudflare_record" "cname_records" {
+  zone_id = "${cloudflare_zone.zone.id}"
+  name    = "rmq.${var.env}"
+  value   = "${cloudflare_zone.zone.zone}"
+  type    = "CNAME"
+  proxied = true
+}
+
 resource "cloudflare_record" "wildcard_records" {
   zone_id = "${cloudflare_zone.zone.id}"
   name    = "*.${var.env}"
