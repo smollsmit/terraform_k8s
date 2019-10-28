@@ -24,5 +24,5 @@ cd ${path} && unzip ${arc_name}
 
 sudo mv ${path}/terraform /usr/local/bin/terraform
 
-terraform -uninstall-autocomplete
+#terraform -uninstall-autocomplete
 terraform version

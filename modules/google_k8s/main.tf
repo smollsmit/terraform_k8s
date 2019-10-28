@@ -10,10 +10,6 @@ resource "google_container_cluster" "k8s_cluster" {
 
   addons_config {
 
-    kubernetes_dashboard {
-      disabled = false
-    }
-
     http_load_balancing {
       disabled = false
     }
@@ -62,14 +58,14 @@ resource "google_container_node_pool" "node_pools" {
   }
 }
 
-resource "null_resource" "get_credentials" {
-
-  provisioner "local-exec" {
-    command = "gcloud container clusters get-credentials ${var.project_name}-${var.env} --project ${var.project_id} --zone ${var.location}"
-  }
- 
-  depends_on = [
-    "google_container_cluster.k8s_cluster",
-    "google_container_node_pool.node_pools"
-  ]
-}
+#resource "null_resource" "get_credentials" {
+#
+#  provisioner "local-exec" {
+#    command = "gcloud container clusters get-credentials ${var.project_name}-${var.env} --project ${var.project_id} --zone ${var.location}"
+#  }
+# 
+#  depends_on = [
+#    "google_container_cluster.k8s_cluster",
+#    "google_container_node_pool.node_pools"
+#  ]
+#}
