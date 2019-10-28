@@ -4,7 +4,6 @@
 id=$(openssl rand -hex 4)
 billing_account=$1
 project=$2
-env=$3
 service_account_name="terraform"
 project_id=${project}-${env}-${id}
 creds_path="../globals/credentials/${project}-${env}.json"
@@ -14,10 +13,10 @@ role="owner"
 # gcloud auth application-default login
 
 # Create project
-gcloud projects create ${project_id} --name=${project}-${env} --labels=project=${project} 
+gcloud projects create ${project_id} --name=${project} --labels=project=${project} 
 
 # Delete default Firewall rules and VPC
-gcloud -q compute firewall-rules delete default-allow-icmp default-allow-internal default-allow-rdp default-allow-ssh
+gcloud -q compute firewall-rules delete default-allow-icmp default-allow-internal default-allow-rdp default-allow-ssh --project=${project_id}
 gcloud compute networks delete default --project=${project_id}
 
 # Get billing account: gcloud beta billing accounts list

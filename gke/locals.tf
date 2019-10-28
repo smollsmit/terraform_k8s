@@ -1,5 +1,5 @@
 data "external" "credentials" {
-  program = ["cat", "../globals/credentials/${var.project_name}-${var.env}.json"]
+  program = ["cat", "../globals/credentials/${var.project_name}.json"]
 }
 
 data "google_compute_address" "ingress_ip_pub" {
