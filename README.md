@@ -39,5 +39,5 @@ pwgen -s -N 1 -cn 64
 ```
 ## Import IP Address 
 ```
-terraform import -var-file=tfvars/dev.tfvars google_compute_address.ingress_ip_pub ingress-ip-pub
+terraform import -var-file=.terraform/vars/variables.tfvars google_compute_address.ingress_ip_pub ingress-ip-pub
 ```

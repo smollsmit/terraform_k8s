@@ -31,6 +31,9 @@ gcloud iam service-accounts keys create ${creds_path} --iam-account ${service_ac
 # Grant permissions
 gcloud projects add-iam-policy-binding ${project_id} --member serviceAccount:${service_account_name}@${project_id}.iam.gserviceaccount.com --role roles/${role}
 
+# Create bucket for tfsates
+gsutil mb -p ${project_id} -c standard -l europe-west3 gs://terraform-state-online
+
 # Enable API
 # gcloud services list --available --project ${project_id}
 # gcloud services list --enable --project ${project_id}

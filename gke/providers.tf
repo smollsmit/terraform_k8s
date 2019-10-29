@@ -45,3 +45,11 @@ provider "helm" {
   }
 
 }
+
+# ---------- Backand for tfstate files
+terraform {
+  backend "gcs" {
+    bucket = "terraform-state-online"
+    prefix = "gke"
+  }
+}

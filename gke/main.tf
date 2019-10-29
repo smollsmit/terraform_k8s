@@ -15,7 +15,7 @@ resource "kubernetes_namespace" "namespace" {
   }
 }
 
-# ---------- Install Nginx ingress controller
+# ---------- Install HELM Charts 
 resource "helm_release" "nginx_ingress" {
   name       = "nginx-ingress"
   repository = "${local.helm_repo_stable}"
@@ -68,6 +68,41 @@ volumePermissions:
   enabled: true
 EOF
   ]
+
+  lifecycle {
+    ignore_changes = ["chart"]
+  }
+
+  depends_on = [
+    "null_resource.helm_init",
+    "helm_release.nginx_ingress" 
+  ]
+
+}
+
+resource "helm_release" "redis" {
+  name       = "redis"
+  repository = "${local.helm_repo_stable}"
+  chart      = "redis"
+  namespace  = "${var.project_name}-${var.env}"
+
+  values = [<<EOF
+cluster:
+  slaveCount: 1
+networkPolicy:
+  enabled: true
+metrics:
+  enabled: true
+master:
+  persistence:
+    enabled: true
+    size: 1Gi
+EOF
+  ]
+
+  lifecycle {
+    ignore_changes = ["chart"]
+  }
 
   depends_on = [
     "null_resource.helm_init",

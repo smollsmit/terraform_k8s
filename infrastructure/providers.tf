@@ -11,3 +11,11 @@ provider "google-beta" {
   region      = "${var.region}"
   zone        = "${var.zone}"
 }
+
+# ---------- Backand for tfstate files
+terraform {
+  backend "gcs" {
+    bucket = "terraform-state-online"
+    prefix = "infrastructure"
+  }
+}

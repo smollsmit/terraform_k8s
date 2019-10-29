@@ -17,3 +17,11 @@ provider "cloudflare" {
   email     = "${var.cf_email}"
   api_token = "${var.cf_token}"
 }
+
+# ---------- Backand for tfstate files
+terraform {
+  backend "gcs" {
+    bucket = "terraform-state-online"
+    prefix = "cloudflare"
+  }
+}
