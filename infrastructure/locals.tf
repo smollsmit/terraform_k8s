@@ -20,6 +20,6 @@ locals {
   # ---------- IP
   ingress_ip_pub  = "${data.google_compute_address.ingress_ip_pub.address}"
   bastion_ip_int  = "${cidrhost("${cidrsubnet("${var.vpc_network}", 8, 254)}", 251)}"
-  lb_ip_int       = "${cidrhost("${cidrsubnet("${var.vpc_network}", 8, 254)}", 252)}"
-  mysql_ip_int    = "${cidrhost("${cidrsubnet("${var.vpc_network}", 8, 4)}", 11)}"
+  #lb_ip_int       = "${cidrhost("${cidrsubnet("${var.vpc_network}", 8, 254)}", 252)}"
+  #mysql_ip_int    = "${cidrhost("${cidrsubnet("${var.vpc_network}", 8, 4)}", 11)}"
 }

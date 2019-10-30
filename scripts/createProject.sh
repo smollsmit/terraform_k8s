@@ -33,6 +33,7 @@ gcloud projects add-iam-policy-binding ${project_id} --member serviceAccount:${s
 
 # Create bucket for tfsates
 gsutil mb -p ${project_id} -c standard -l europe-west3 gs://terraform-state-online
+gsutil versioning set on gs://terraform-state-online
 
 # Enable API
 # gcloud services list --available --project ${project_id}

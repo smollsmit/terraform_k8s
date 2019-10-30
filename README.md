@@ -41,3 +41,10 @@ pwgen -s -N 1 -cn 64
 ```
 terraform import -var-file=.terraform/vars/variables.tfvars google_compute_address.ingress_ip_pub ingress-ip-pub
 ```
+
+## Install TfLint
+https://github.com/wata727/tflint/blob/master/docs/guides/config.md
+```
+curl -L "$(curl -s https://api.github.com/repos/wata727/tflint/releases/latest | grep -o -E "https://.+?_linux_amd64.zip")" > tflint.zip && unzip tflint.zip && rm tflint.zip
+
+```

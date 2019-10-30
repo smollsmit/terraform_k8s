@@ -1,6 +1,6 @@
 # ---------- Create google dns managed zone
 resource "google_dns_managed_zone" "private_zone_local" {
-  name        = "${var.project_name}-${var.env}"
+  name        = "${var.organization}-local"
   dns_name    = "${var.dns_zone_name}."
   description = "Local dns zone for ${var.env} environment" 
 

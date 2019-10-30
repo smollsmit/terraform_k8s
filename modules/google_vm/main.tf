@@ -41,12 +41,12 @@ resource "google_dns_record_set" "dns_record_set" {
   type          = "A"
   ttl           = "120"
 
-  managed_zone  = "${var.project_name}-${var.env}"
+  managed_zone  = "${var.organization}-local"
     
   rrdatas       = ["${var.node_pools[count.index]["ip_int"]}"]
 
-  lifecycle {
-    ignore_changes = []
-    create_before_destroy = true
-  }
+  #lifecycle {
+  #  ignore_changes = []
+  #  create_before_destroy = true
+  #}
 } 

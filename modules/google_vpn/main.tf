@@ -9,7 +9,7 @@ resource "google_compute_address" "vpn-ip-pub" {
 }
 
 resource "google_compute_vpn_gateway" "vpn_gateway" {
-  name    = "${var.project_name}-${var.env}-vpn-gateway"
+  name    = "${var.project_name}-vpn-gateway"
   network = "${var.network}"
 }
 
@@ -39,7 +39,7 @@ resource "google_compute_forwarding_rule" "forwarding_rule_udp_4500" {
 
 # ---------- VPN Tunnel
 resource "google_compute_vpn_tunnel" "vpn_tunnel" {
-  name          = "${var.project_name}-${var.env}-vpn-tunnel"
+  name          = "${var.project_name}-vpn-tunnel"
   peer_ip       = "${var.vpn_peer_ip}"
   shared_secret = "${var.vpn_shared_secret}"
   ike_version   = "2"
@@ -58,7 +58,7 @@ resource "google_compute_vpn_tunnel" "vpn_tunnel" {
 
 # ---------- VPN Rotes to remote Network
 resource "google_compute_route" "compute_route" {
-  name        = "${var.project_name}-${var.env}-vpn-route"
+  name        = "${var.project_name}-vpn-route"
   dest_range  = "${var.vpn_remote_network}"
   network     = "${var.network}"
   next_hop_vpn_tunnel = "${google_compute_vpn_tunnel.vpn_tunnel.self_link}"

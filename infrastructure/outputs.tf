@@ -12,23 +12,23 @@ output "nat_public_ip" {
 }
 
 # ---------- GKE cluster
-output "cluster_name" {
-  value = "${module.google_k8s.name}"
-}
-
-output "cluster_location" {
-  value = "${module.google_k8s.location}"
-}
-
-output "cluster_endpoint" {
-  value = "${module.google_k8s.endpoint}"
-}
-
-# ---------- VMs
-#output "vm_ip_pub" {
-#  value = "${module.google_vm.vm_ip_pub}"
+#output "cluster_name" {
+#  value = "${module.google_k8s.name}"
 #}
 
-output "ingress_ip_pub" {
-  value = "${local.ingress_ip_pub}"
+#output "cluster_location" {
+#  value = "${module.google_k8s.location}"
+#}
+
+#output "cluster_endpoint" {
+#  value = "${module.google_k8s.endpoint}"
+#}
+
+# ---------- VMs
+output "vm_ip_pub" {
+  value = "${module.google_vm.vm_ip_pub}"
 }
+
+#output "ingress_ip_pub" {
+#  value = "${local.ingress_ip_pub}"
+#}

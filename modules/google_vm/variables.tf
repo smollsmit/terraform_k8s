@@ -1,3 +1,7 @@
+variable "organization" {
+  type = "string"
+  default = "undefined"
+}
 variable "project_name" {
   default = "undefined"
 }
