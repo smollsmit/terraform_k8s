@@ -1,0 +1,29 @@
+replicaCount: 1
+
+image:
+  repository: nginx
+  tag: stable
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true 
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - host: online.dev.blacksmith.best 
+      paths: [/]
+
+  tls: []
+
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}

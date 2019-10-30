@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "test.fullname" . }}
+  name: {{ include "online.fullname" . }}
   labels:
-{{ include "test.labels" . | indent 4 }}
+{{ include "online.labels" . | indent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,5 +12,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "test.name" . }}
+    app.kubernetes.io/name: {{ include "online.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
