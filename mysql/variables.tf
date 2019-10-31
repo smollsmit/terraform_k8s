@@ -23,10 +23,15 @@ variable "zone" {
 variable "api_services" {
   default = [
     "sqladmin.googleapis.com",
+    "servicenetworking.googleapis.com",
   ]
 }
 
-# ---------- MySQL
-variable "mysql_subnet_name" {
+# ---------- Network
+variable "vpc_name" {
+  default = "undefined"
+}
+
+variable "db_subnet_name" {
   default = "undefined"
 }
