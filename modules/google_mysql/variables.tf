@@ -11,10 +11,6 @@ variable "network" {
   default = "undefined"
 }
 
-variable "backup_enable" {
-  default = "true"
-}
-
 variable "tier" {
   default = "db-f1-micro"
 }
@@ -25,4 +21,33 @@ variable "disk_size" {
 
 variable "disk_type" {
   default = "PD_SSD"
+}
+
+# ---------- Replication
+variable "failover_enabled" {
+  default = true
+}
+variable "backup_enabled" {
+  default = "true"
+}
+
+variable "mysql_users" {
+  description = "A list of users to be created in your cluster"
+  default = [
+    {
+      name     = "terraform" 
+      password = ""
+      host     = "%"
+    },
+    {
+      name     = "online" 
+      password = ""
+      host     = "%"
+    },
+  ]
+}
+
+variable "mysql_host" {
+  description = "The host for the default user"
+  default     = "%"
 }

@@ -35,3 +35,7 @@ variable "vpc_name" {
 variable "db_subnet_name" {
   default = "undefined"
 }
+
+variable "dmz_subnet_name" {
+  default = "undefined"
+}

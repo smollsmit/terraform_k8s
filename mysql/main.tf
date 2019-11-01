@@ -11,13 +11,14 @@ module "project_services" {
 
 # ---------- Modules
 module "google_mysql" {
-  source        = "../modules/google_mysql"
-  organization  = "${var.organization}"
-  project_name  = "${var.project_name}"
-  env           = "${var.env}"
-  network       = "${data.google_compute_network.compute_network.self_link}"
-  tier          = "db-f1-micro"
-  disk_size     = "16"
-  disk_type     = "PD_SSD"
-  backup_enable = true
+  source          = "../modules/google_mysql"
+  organization      = "${var.organization}"
+  project_name      = "${var.project_name}"
+  env               = "${var.env}"
+  network           = "${data.google_compute_network.compute_network.self_link}"
+  tier              = "db-f1-micro"
+  disk_size         = "16"
+  disk_type         = "PD_SSD"
+  backup_enabled    = true
+  failover_enabled  = true
 }

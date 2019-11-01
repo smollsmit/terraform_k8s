@@ -21,7 +21,7 @@ case ${ops} in
 
         terraform validate 
         terraform plan -var-file ${varpath}/variables.tfvars -out ${planpath}/${date}.tfplan #-state ${statepath}/terraform.tfstate
-        #terraform apply ${planpath}/${date}.tfplan
+        terraform apply ${planpath}/${date}.tfplan
         
         if [ -f "${planpath}/${date}.tfplan" ]; then
             echo "Tfplan was successfully generated at ${date} by $USER" >> ${logpath}/ops.log
