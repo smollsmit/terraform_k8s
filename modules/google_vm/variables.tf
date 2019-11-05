@@ -11,7 +11,7 @@ variable "env" {
 }
 
 variable "packages" {
-  default = "mc ncdu dnsutils"
+  default = "mc ncdu dnsutils telnet"
 }
 
 variable "ssh_users" {

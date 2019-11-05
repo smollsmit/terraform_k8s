@@ -39,3 +39,11 @@ variable "db_subnet_name" {
 variable "dmz_subnet_name" {
   default = "undefined"
 }
+
+# ---------- MySQL
+variable "mysql_dump_src" {
+  default = "undefined"
+}
+variable "mysql_dump_dst" {
+  default = "undefined"
+}

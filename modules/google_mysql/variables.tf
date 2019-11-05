@@ -28,7 +28,7 @@ variable "failover_enabled" {
   default = true
 }
 variable "backup_enabled" {
-  default = "true"
+  default = true
 }
 
 variable "mysql_users" {
@@ -50,4 +50,11 @@ variable "mysql_users" {
 variable "mysql_host" {
   description = "The host for the default user"
   default     = "%"
+}
+
+variable "mysql_dump_src" {
+  default = "undefined"
+}
+variable "mysql_dump_dst" {
+  default = "undefined"
 }

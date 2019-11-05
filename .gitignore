@@ -39,3 +39,7 @@ globals/applications/*
 # ---------- Ignore Credentials
 globals/variables/*
 !globals/credentials/README.md
+
+# ---------- Ignore Dumps
+globals/dumps/mysql/*
+!globals/dumps/mysql/README.md

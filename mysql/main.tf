@@ -11,7 +11,7 @@ module "project_services" {
 
 # ---------- Modules
 module "google_mysql" {
-  source          = "../modules/google_mysql"
+  source            = "../modules/google_mysql"
   organization      = "${var.organization}"
   project_name      = "${var.project_name}"
   env               = "${var.env}"
@@ -21,4 +21,6 @@ module "google_mysql" {
   disk_type         = "PD_SSD"
   backup_enabled    = true
   failover_enabled  = true
+  mysql_dump_src    = "${var.mysql_dump_src}"
+  mysql_dump_dst    = "${var.mysql_dump_dst}"
 }

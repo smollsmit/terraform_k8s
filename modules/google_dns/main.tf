@@ -16,4 +16,7 @@ resource "google_dns_managed_zone" "private_zone_local" {
   #    ignore_changes = []
   #    create_before_destroy = true
   #}
+
+  force_destroy = true
+  
 }
