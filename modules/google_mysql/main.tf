@@ -1,8 +1,3 @@
-# ---------- Generate postfix for DB instance's name
-resource "random_id" "db_postfix" {
-  byte_length = 4
-}
-
 # ---------- Create peering network
 resource "google_compute_global_address" "peering_ip_address" {
   provider = "google-beta"
@@ -24,58 +19,25 @@ resource "google_service_networking_connection" "private_vpc_connection" {
   reserved_peering_ranges = ["${google_compute_global_address.peering_ip_address.name}"]
 }
 
-# ---------- Create Bucket for DB Backup
-resource "google_storage_bucket" "db_bucket" {
-  name     = "db-${var.project_name}-${random_id.db_postfix.hex}"
-
-  lifecycle {
-    ignore_changes = []
-    create_before_destroy = true
-  }
-
-  labels = {
-    env = "${var.env}"
-  }
-
-  force_destroy = true
-
-}
-
-# ---------- Upload DB to Bucket
-resource "google_storage_bucket_object" "bucket_object" {
-  name   = "base.sql.gz"
-  source = "${var.mysql_dump_src}"
-  bucket = "${google_storage_bucket.db_bucket.name}"
-
-  depends_on = [
-    "google_storage_bucket.db_bucket"
-  ]
-
-}
-
 # ---------- Create MySQL Instance (main)
 resource "google_sql_database_instance" "mysql_database_instance_master" {
-  name              = "mysql-${var.project_name}-master-${random_id.db_postfix.hex}"
+  name              = "${var.master_instance_name}"
   database_version  = "MYSQL_5_7"
 
   settings {
-    tier              = "${var.tier}"
+    tier              = "${var.master_tier}"
     replication_type  = "SYNCHRONOUS"
+    user_labels       = merge(var.labels, {"type": "master"})
  
     backup_configuration {
       binary_log_enabled  = "true"
-      enabled             = "${var.backup_enabled}"
-      start_time          = "17:00"
-    }
-
-    user_labels = {
-      env = "${var.env}"
-      type = "master"
+      enabled             = "${var.master_backup_enabled}"
+      start_time          = "${var.master_backup_time}"
     }
 
     ip_configuration {
 
-      ipv4_enabled = false 
+      ipv4_enabled = "${var.master_public_ip_enabled}"  
       private_network = "${var.network}"
 
       #authorized_networks {
@@ -112,7 +74,7 @@ resource "google_sql_database_instance" "mysql_database_instance_master" {
 }
 
 resource "google_sql_database_instance" "mysql_database_instance_failover" {
-  name                  = "mysql-${var.project_name}-failover-${random_id.db_postfix.hex}"
+  name                  = "${var.failover_instance_name}"
   count                 = "${var.failover_enabled == true ? 1 : 0}"
   database_version      = "MYSQL_5_7"
   master_instance_name  = "${google_sql_database_instance.mysql_database_instance_master.name}"
@@ -124,19 +86,15 @@ resource "google_sql_database_instance" "mysql_database_instance_failover" {
   }
 
   settings {
-    tier              = "${var.tier}"
+    tier              = "${var.failover_tier}"
     replication_type  = "SYNCHRONOUS"
-
-    user_labels = {
-      env = "${var.env}"
-      type = "failover"
-    }
+    user_labels       = merge(var.labels, {"type": "failover"})
 
     crash_safe_replication = true
 
     ip_configuration {
 
-      ipv4_enabled    = false 
+      ipv4_enabled    = "${var.failover_public_ip_enabled}" 
       private_network = "${var.network}"
 
     }
@@ -171,11 +129,11 @@ resource "random_id" "user-password" {
   byte_length = 8
   depends_on  = ["google_sql_database_instance.mysql_database_instance_master"]
 }
-resource "google_sql_user" "mysql_users" {
-  count       = "${length(var.mysql_users)}"
-  name        = "${var.mysql_users[count.index]["name"]}"
-  password    = "${lookup(var.mysql_users[count.index], "password", random_id.user-password.hex,)}"
-  host        = "${lookup(var.mysql_users[count.index], "host", var.mysql_host)}"
+resource "google_sql_user" "mysql_db_users" {
+  count       = "${length(var.mysql_db_users)}"
+  name        = "${var.mysql_db_users[count.index]["name"]}"
+  password    = "${lookup(var.mysql_db_users[count.index], "password", random_id.user-password.hex,)}"
+  host        = "${lookup(var.mysql_db_users[count.index], "host", var.mysql_host)}"
   instance    = "${google_sql_database_instance.mysql_database_instance_master.name}"
   
   depends_on  = ["google_sql_database_instance.mysql_database_instance_failover"]
@@ -184,20 +142,17 @@ resource "google_sql_user" "mysql_users" {
 # ---------- Create DB
 resource "google_sql_database" "sql_database" {
   instance = "${google_sql_database_instance.mysql_database_instance_master.name}"
-  name     = "${var.project_name}"
+  name     = "${var.mysql_db_name}"
 }
 
-
-
 # ---------- Import DB to MySQL Instance
-#resource "null_resource" "import_database" {
-#
-#  provisioner "local-exec" {
-#    command = "gcloud sql import sql ${google_sql_database_instance.mysql_database_instance_master.name} ${google_storage_bucket.mysql_backup.name}/${var.mysql_dump_path} --database=${var.project_name} --quiet"
-#  }
-# 
-#  depends_on = [
-#    "google_sql_database.sql_database",
-#    "google_storage_bucket.db_bucket"
-#  ]
-#}
+resource "null_resource" "import_database" {
+  provisioner "local-exec" {
+    command = "gcloud sql import sql ${google_sql_database_instance.mysql_database_instance_master.name} gs://${var.mysql_dump_path} --database=${var.mysql_db_name} --quiet"
+  }
+ 
+  depends_on = [
+    "google_sql_database.sql_database",
+  ]
+
+}

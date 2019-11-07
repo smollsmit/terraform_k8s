@@ -2,3 +2,16 @@
 organization  = ""
 project_name  = ""
 env           = ""
+
+# ---------- Network
+vpc_name          = ""
+db_subnet_name    = ""
+dmz_subnet_name   = ""
+
+# ---------- Bucket 
+file_local_path   = "../globals/dumps/mysql"
+file_remote_path  = "mysql"
+file_upload_name  = "base.sql.gz"
+
+# ---------- MySQL
+mysql_db_name     = ""

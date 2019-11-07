@@ -1,6 +1,5 @@
 # ---------- Projects params
 variable "organization" {
-  type = "string"
   default = "undefined"
 }
 variable "project_id" {

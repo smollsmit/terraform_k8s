@@ -29,6 +29,12 @@ case ${ops} in
 
         ;;
 
+    "plan" )
+
+        terraform validate
+        terraform plan -var-file ${varpath}/variables.tfvars
+        ;;
+
     "destroy" )
 
         terraform destroy -var-file ${varpath}/variables.tfvars

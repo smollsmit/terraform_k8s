@@ -1,11 +1,4 @@
 # ---------- Projects params
-variable "organization" {
-  type = "string"
-  default = "undefined"
-}
-variable "project_id" {
-  default = "undefined"
-}
 variable "project_name" {
   default = "undefined"
 }
@@ -17,6 +10,9 @@ variable "region" {
 }
 variable "zone" {
   default = "europe-west3-a"
+}
+variable "location" {
+  default = "europe-west3"
 }
 
 # ---------- API Enable
@@ -32,18 +28,22 @@ variable "vpc_name" {
   default = "undefined"
 }
 
-variable "db_subnet_name" {
+# ---------- Bucket
+variable "file_local_path" {
+  default = "undefined"
+}
+variable "file_remote_path" {
   default = "undefined"
 }
 
-variable "dmz_subnet_name" {
+variable "file_upload_name" {
   default = "undefined"
 }
 
 # ---------- MySQL
-variable "mysql_dump_src" {
+variable "app_db_name" {
   default = "undefined"
 }
-variable "mysql_dump_dst" {
+variable "app_db_user" {
   default = "undefined"
 }

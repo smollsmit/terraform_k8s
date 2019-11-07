@@ -10,17 +10,58 @@ module "project_services" {
 }
 
 # ---------- Modules
+module "google_buckt" {
+  source              = "../modules/google_buckt"
+  versioning_enabled  = false    
+  location            = "${var.location}"
+
+  bucket_name         = "db-${var.project_name}-${local.postfix}"
+  bucket_user_email   = "${local.automation_user_email}"
+  bucket_user_role    = "roles/storage.objectAdmin"
+
+  file_local_path     = "${var.file_local_path}"
+  file_remote_path    = "${var.file_remote_path}"
+  file_upload_name    = "${var.file_upload_name}"
+
+  labels = {
+    project = "${var.project_name}"
+    env     = "${var.env}"
+  }
+
+}
+
 module "google_mysql" {
-  source            = "../modules/google_mysql"
-  organization      = "${var.organization}"
-  project_name      = "${var.project_name}"
-  env               = "${var.env}"
-  network           = "${data.google_compute_network.compute_network.self_link}"
-  tier              = "db-f1-micro"
-  disk_size         = "16"
-  disk_type         = "PD_SSD"
-  backup_enabled    = true
-  failover_enabled  = true
-  mysql_dump_src    = "${var.mysql_dump_src}"
-  mysql_dump_dst    = "${var.mysql_dump_dst}"
+  source                      = "../modules/google_mysql"
+  network                     = "${data.google_compute_network.compute_network.self_link}"
+
+  master_instance_name        = "mysql-${var.project_name}-master-${local.postfix}"
+  master_tier                 = "db-f1-micro"
+  master_public_ip_enabled    = false
+  master_backup_enabled       = true
+  master_backup_time          = "23:00"
+
+  failover_instance_name      = "mysql-${var.project_name}-failover-${local.postfix}"
+  failover_tier               = "db-f1-micro"
+  failover_public_ip_enabled  = false
+  failover_enabled            = true
+
+  labels = {
+    project = "${var.project_name}"
+    env     = "${var.env}"
+  }
+  
+  mysql_dump_path = "db-${var.project_name}-${local.postfix}/${var.file_remote_path}/${var.file_upload_name}"
+  mysql_db_name   = "${var.app_db_name}"
+  mysql_db_users  = [
+    {
+      name     = "terraform" 
+      password = ""
+      host     = "%"
+    },
+    {
+      name     = "${var.app_db_user}" 
+      password = ""
+      host     = "%"
+    },
+  ]
 }
